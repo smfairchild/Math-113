@@ -238,8 +238,8 @@ def animate(frame):
 
 # Create the animation
 # frames: 0 (initial state) + 3 (angles + arcs + points) + 4 (triangle steps + labels/formulas) = 8 frames
-# Keeping blit=False for consistent rendering in Colab as per previous troubleshooting.
-ani = FuncAnimation(fig, animate, frames=range(8), init_func=init, blit=False, interval=1500, repeat=False)
+# *** THIS IS THE CRUCIAL LINE: 'interval=1500' HAS BEEN REMOVED HERE ***
+ani = FuncAnimation(fig, animate, frames=range(8), init_func=init, blit=False, repeat=False)
 
 # To get the HTML output for embedding in PyScript, we use to_jshtml()
 # We don't call HTML() directly here, as that's for Jupyter/Colab display.
