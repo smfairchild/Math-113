@@ -20,12 +20,12 @@
 
     <style>
         body {
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Cambria', 'Georgia', serif;
+            font-size: 24px;
             line-height: 1.8;
             color: #333;
             background-color: #fdfdfd;
             overflow-y: scroll;
-            font-size: 1.4em;
         }
         .container {
             max-width: 900px;
@@ -173,7 +173,7 @@
                 <tr> <td>30</td> <td>130</td> </tr>
             </table>
             <p>Our first step is to visualize the data. We'll plot temperature on the x-axis (our independent variable) and chirps per minute on the y-axis (our dependent variable).</p>
-            <img src="plot_scatter.png" alt="Scatter plot of cricket data">
+            <img src="media/plot_scatter.png" alt="Scatter plot of cricket data">
             <p class="remark">Scientists and engineers live by this principle: visualize your data first. A plot reveals patterns that a table of numbers can hide. Here, the points form a nearly perfect line, which suggests a linear relationship.</p>
             <h3>Creating a Formula</h3>
             <p>To create a formula, we can use the point-slope form of a linear equation, $y - y_1 = m(x - x_1)$. In our context, this is $C - C_1 = m(T - T_1)$. We need to find the slope ($m$) and then use one of our data points.</p>
@@ -186,7 +186,7 @@
             <p>$$ C = 5T - 100 + 80 $$</p>
             <p>$$ C = 5T - 20 $$</p>
             <p>So, our formula is $C(T) = 5T - 20$. Let's plot this line on our graph to see how well it fits the data.</p>
-            <img src="plot_line_fit.png" alt="Scatter plot with line of best fit">
+            <img src="media/plot_line_fit.png" alt="Scatter plot with line of best fit">
             <h3>Making a Prediction</h3>
             <p>Now for the powerful part. We can use our model to make a prediction for a temperature not in our data set, like 26°C.</p>
             <p>$$ C(26) = 5(26) - 20 = 130 - 20 = 110 $$</p>
@@ -211,15 +211,21 @@
                 <tr><td>Product of Powers</td><td>$b^x \cdot b^y = b^{x+y}$</td><td>When multiplying powers with the same base, add the exponents.</td></tr>
                 <tr><td>Quotient of Powers</td><td>$\frac{b^x}{b^y} = b^{x-y}$</td><td>When dividing powers with the same base, subtract the exponents.</td></tr>
                 <tr><td>Power of a Power</td><td>$(b^x)^y = b^{xy}$</td><td>When raising a power to another power, multiply the exponents.</td></tr>
-                <tr><td>Zero Exponent</td><td>$b^0 = 1$</td><td>Any non-zero base raised to the power of zero is 1.</td></tr>
-                <tr><td>Negative Exponent</td><td>$b^{-x} = \frac{1}{b^x}$</td><td>A negative exponent indicates the reciprocal of the base raised to the positive exponent.</td></tr>
-                <tr><td>Fractional Exponent</td><td>$b^{m/n} = \sqrt[n]{b^m} = (\sqrt[n]{b})^m$</td><td>A fractional exponent indicates a root and a power.</td></tr>
             </table>
             <div class="example-box">
                 <h3>Simplifying Exponential Expressions</h3>
-                <p><strong>1. Product of Powers:</strong> Simplify $(4x^3y^2)(5x^4y)$.<br> <strong>Solution:</strong> $(4 \cdot 5)(x^{3+4})(y^{2+1}) = 20x^7y^3$.</p>
-                <p><strong>2. Power of a Quotient:</strong> Simplify $\left(\frac{2a^4}{b^2}\right)^3$.<br> <strong>Solution:</strong> $\frac{2^3 (a^4)^3}{(b^2)^3} = \frac{8a^{12}}{b^6}$.</p>
-                <p><strong>3. Negative Exponents:</strong> Simplify $\frac{(x^{-2}y^3)^{-2}}{(x^3y^{-1})^2}$.<br> <strong>Solution:</strong> $\frac{x^{(-2)(-2)}y^{(3)(-2)}}{x^{(3)(2)}y^{(-1)(2)}} = \frac{x^4y^{-6}}{x^6y^{-2}} = x^{-2}y^{-4} = \frac{1}{x^2y^4}$.</p>
+                <p><strong>1. Simplify $(4x^3y^2)(5x^4y)$:</strong><br>
+                $$(4 \cdot 5)(x^3 \cdot x^4)(y^2 \cdot y^1)$$
+                $$20x^{3+4}y^{2+1}$$
+                $$20x^7y^3$$</p>
+                <p><strong>2. Simplify $\left(\frac{2a^4}{b^2}\right)^3$:</strong><br>
+                $$\frac{(2^3)(a^4)^3}{(b^2)^3}$$
+                $$\frac{8a^{4 \cdot 3}}{b^{2 \cdot 3}}$$
+                $$\frac{8a^{12}}{b^6}$$</p>
+                <p><strong>3. Simplify $\frac{(x^{-2}y^3)^{-2}}{(x^3y^{-1})^2}$:</strong><br>
+                $$\frac{x^{(-2)(-2)}y^{(3)(-2)}}{x^{(3)(2)}y^{(-1)(2)}} = \frac{x^4y^{-6}}{x^6y^{-2}}$$
+                $$x^{4-6}y^{-6-(-2)} = x^{-2}y^{-4}$$
+                $$\frac{1}{x^2y^4}$$</p>
             </div>
             <h3>3. Trigonometric Functions</h3>
             <p>Trigonometric functions are essential for describing periodic phenomena like waves and rotations. They are defined using the <strong>unit circle</strong>—a circle with a radius of 1 centered at the origin.</p>
@@ -228,7 +234,7 @@
             <hr>
             <h2>Unit Circle Animation</h2>
             <p>Here's an animation of the unit circle, showing key angles and their trigonometric values.</p>
-            <video src="circle_animation.mp4" poster="final_frame_circle.png" width="100%" autoplay muted controls>
+            <video src="media/circle_animation.mp4" poster="media/final_frame_circle.png" width="100%" autoplay muted controls>
               Your browser does not support the video tag.
             </video>
             <hr>
@@ -256,15 +262,16 @@
                 <tr><td>Product Rule</td><td>$\log_b(xy) = \log_b(x) + \log_b(y)$</td><td>The logarithm of a product is the sum of the logarithms.</td></tr>
                 <tr><td>Quotient Rule</td><td>$\log_b\left(\frac{x}{y}\right) = \log_b(x) - \log_b(y)$</td><td>The logarithm of a quotient is the difference of the logarithms.</td></tr>
                 <tr><td>Power Rule</td><td>$\log_b(x^n) = n \cdot \log_b(x)$</td><td>The logarithm of a power is the exponent times the logarithm of the base.</td></tr>
-                <tr><td>Logarithm of One</td><td>$\log_b(1) = 0$</td><td>The logarithm of 1 to any base is 0.</td></tr>
-                <tr><td>Logarithm of Base</td><td>$\log_b(b) = 1$</td><td>The logarithm of the base to itself is 1.</td></tr>
-                <tr><td>Natural Logarithm</td><td>$\log_e(x) = \ln(x)$</td><td>The natural logarithm uses Euler's number ($e$) as its base.</td></tr>
             </table>
             <div class="example-box">
                 <h3>Simplifying Logarithmic Expressions</h3>
-                <p><strong>1. Expand an expression:</strong> Expand $\log_3(9x^2y)$.<br> <strong>Solution:</strong> $\log_3(9) + \log_3(x^2) + \log_3(y) = 2 + 2\log_3(x) + \log_3(y)$.</p>
-                <p><strong>2. Condense an expression:</strong> Condense $2\ln(x) + \ln(x+1) - 3\ln(y)$.<br> <strong>Solution:</strong> $\ln(x^2) + \ln(x+1) - \ln(y^3) = \ln\left(\frac{x^2(x+1)}{y^3}\right)$.</p>
-                <p><strong>3. Use the Change of Base rule:</strong> Simplify $\log_4(64)$ using base 2.<br> <strong>Rule:</strong> $\log_b(a) = \frac{\log_c(a)}{\log_c(b)}$.<br> <strong>Solution:</strong> $\log_4(64) = \frac{\log_2(64)}{\log_2(4)} = \frac{6}{2} = 3$.</p>
+                <p><strong>1. Expand $\log_3(9x^2y)$:</strong><br>
+                $$ \log_3(9) + \log_3(x^2) + \log_3(y) $$
+                $$ 2 + 2\log_3(x) + \log_3(y) $$</p>
+                <p><strong>2. Condense $2\ln(x) + \ln(x+1) - 3\ln(y)$:</strong><br>
+                $$ \ln(x^2) + \ln(x+1) - \ln(y^3) $$
+                $$ \ln(x^2(x+1)) - \ln(y^3) $$
+                $$ \ln\left(\frac{x^2(x+1)}{y^3}\right) $$</p>
             </div>
             <hr>
             <h2>Function Composition and Inverses</h2>
@@ -290,6 +297,41 @@
             <p>$$ e^{\ln(x)} = x \quad \text{and} \quad \ln(e^x) = x $$</p>
             <p>Graphically, the inverse of a function is its reflection across the line $y=x$.</p>
             <div class="img-placeholder">Image 7: Inverse functions ($e^x$, $\ln(x)$, and $y=x$)</div>
+            <hr>
+            <h2>New Functions from Old</h2>
+            <p>A powerful technique in mathematics is to create new functions by applying transformations to existing, simpler "parent" functions. This allows us to understand the behavior of complex functions by seeing them as modifications of functions we already know.</p>
+            <h3>Vertical and Horizontal Shifts</h3>
+            <p>Shifts are transformations that move the entire graph of a function without changing its shape. Let $c$ be a positive constant:</p>
+            <ul>
+                <li>$y = f(x) + c$:&nbsp; Shifts the graph of $f(x)$ up by $c$ units.</li>
+                <li>$y = f(x) - c$:&nbsp; Shifts the graph of $f(x)$ down by $c$ units.</li>
+                <li>$y = f(x - c)$:&nbsp; Shifts the graph of $f(x)$ to the <strong>right</strong> by $c$ units.</li>
+                <li>$y = f(x + c)$:&nbsp; Shifts the graph of $f(x)$ to the <strong>left</strong> by $c$ units.</li>
+            </ul>
+            <div class="img-placeholder">Graph of a vertical shift (e.g., y = x² vs y = x² + 2)</div>
+            <div class="img-placeholder">Graph of a horizontal shift (e.g., y = x² vs y = (x - 3)²)</div>
+            <div class="example-box">
+                <h3>Shift Examples</h3>
+                <p><strong>1. Vertical Shift:</strong> The graph of $g(x) = x^2 + 2$ is the graph of the parent function $f(x)=x^2$ shifted <strong>up</strong> by 2 units.</p>
+                <p><strong>2. Horizontal Shift:</strong> The graph of $g(x) = (x-3)^2$ is the graph of the parent function $f(x)=x^2$ shifted to the <strong>right</strong> by 3 units.</p>
+            </div>
+            <h3>Example: Completing the Square</h3>
+            <p>Completing the square is an algebraic technique used to rewrite a quadratic function from its standard form, $y = ax^2+bx+c$, into its vertex form, $y = a(x-h)^2+k$. The vertex form is extremely useful because it immediately tells us the horizontal and vertical shifts.</p>
+            <p>The motivation for the process comes from the structure of a squared binomial: $(x+a)^2 = x^2 + 2ax + a^2$. The key is that the constant term ($a^2$) is the square of half the coefficient of the x-term ($2a$). We exploit this to create a perfect square.</p>
+            <div class="example-box">
+                <h3>Step-by-Step: Completing the Square</h3>
+                <p>Let's transform the quadratic $y = x^2 + 6x + 5$.</p>
+                <p><strong>1. Group the x-terms:</strong><br>
+                $$y = (x^2 + 6x) + 5$$</p>
+                <p><strong>2. Determine the term to complete the square:</strong> The coefficient of our x-term is 6. To match the pattern $x^2 + 2ax$, we take half of this coefficient, which is $3$, and square it to get $9$. This is the term we need.</p>
+                <p><strong>3. Add and subtract this term</strong> inside the parentheses. This is like adding zero, so it doesn't change the function's value:<br>
+                $$y = (x^2 + 6x + 9 - 9) + 5$$</p>
+                <p><strong>4. Factor the perfect square trinomial</strong> and move the extra term outside:<br>
+                $$y = (x+3)^2 - 9 + 5$$</p>
+                <p><strong>5. Combine the constant terms:</strong><br>
+                $$y = (x+3)^2 - 4$$</p>
+                <p><strong>Result:</strong> From this vertex form, we can see that the graph of $y=x^2$ has been shifted 3 units to the <strong>left</strong> and 4 units <strong>down</strong>.</p>
+            </div>
             <p>That concludes our pre-calculus review. Understanding these function families and how to manipulate them is critical for your success as we move into the core concepts of calculus, starting with limits in our next lecture.</p>
         </div>
     </div>
