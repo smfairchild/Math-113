@@ -35,7 +35,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
             background-color: #fff;
         }
-        h1, h2, h3 {
+        h1, h2, h3, h4 {
             color: #003366;
             border-bottom: 2px solid #e0e0e0;
             padding-bottom: 10px;
@@ -44,6 +44,7 @@
         h1 { font-size: 2.0em; }
         h2 { font-size: 1.6em; margin-top: 1.5em; }
         h3 { font-size: 1.2em; border-bottom: none; }
+        h4 { font-size: 1.1em; border-bottom: none; color: #005a9c; }
         p {
             font-size: 1em;
         }
@@ -73,7 +74,7 @@
             margin: 20px 0;
             border-radius: 5px;
         }
-        .example-box h3 {
+        .example-box h3, .check-understanding h4 {
             margin-top: 0;
             color: #005a9c;
             font-size: 1.1em;
@@ -140,6 +141,15 @@
             background-color: #f2f8ff;
             color: #003366;
         }
+        .check-understanding {
+            background-color: #fffbe6;
+            border: 1px solid #ffe58f;
+        }
+        .check-understanding .solution {
+            border-top: 1px dashed #ddd;
+            margin-top: 15px;
+            padding-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -156,6 +166,7 @@
         </div>
 
         <div id="lecture-content">
+            <!-- Content sections from before -->
             <h1>Lecture 2: A Brief Pre-Calculus Review</h1>
             <p>We continue with our precalculus review. We'll see how we can derive a function from real-world data to model the physical world. This serves as our entry point to discussing other families of functions, which are essentialfor what we will do in calculus.</p>
             <hr>
@@ -227,6 +238,17 @@
                 $$x^{4-6}y^{-6-(-2)} = x^{-2}y^{-4}$$
                 $$\frac{1}{x^2y^4}$$</p>
             </div>
+            <div class="example-box check-understanding">
+                <h4>Check Your Understanding</h4>
+                <p><strong>Problem:</strong> Simplify the expression $\frac{(2x^2y^{-1})^3}{4x^{-3}y^2}$.</p>
+                <p><em>Pause the playback to allow time to solve.</em></p>
+                <div class="solution" style="display: none;">
+                    <p><strong>Solution:</strong></p>
+                    <p>$$ \frac{2^3(x^2)^3(y^{-1})^3}{4x^{-3}y^2} = \frac{8x^6y^{-3}}{4x^{-3}y^2} $$</p>
+                    <p>$$ \left(\frac{8}{4}\right) (x^{6 - (-3)}) (y^{-3 - 2}) $$</p>
+                    <p>$$ 2x^9y^{-5} = \frac{2x^9}{y^5} $$</p>
+                </div>
+            </div>
             <h3>3. Trigonometric Functions</h3>
             <p>Trigonometric functions are essential for describing periodic phenomena. They can be defined in two primary ways: using a right triangle, or using the unit circle.</p>
             <h4>Right Triangle Trigonometry</h4>
@@ -271,6 +293,17 @@
                 $$ \ln(x^2) + \ln(x+1) - \ln(y^3) $$
                 $$ \ln(x^2(x+1)) - \ln(y^3) $$
                 $$ \ln\left(\frac{x^2(x+1)}{y^3}\right) $$</p>
+            </div>
+            <div class="example-box check-understanding">
+                <h4>Check Your Understanding</h4>
+                <p><strong>Problem:</strong> Condense the expression $3\log(x) - (\log(y) + 2\log(z))$.</p>
+                <p><em>Pause the playback to allow time to solve.</em></p>
+                <div class="solution" style="display: none;">
+                    <p><strong>Solution:</strong></p>
+                    <p>$$ \log(x^3) - (\log(y) + \log(z^2)) $$</p>
+                    <p>$$ \log(x^3) - \log(yz^2) $$</p>
+                    <p>$$ \log\left(\frac{x^3}{yz^2}\right) $$</p>
+                </div>
             </div>
             <hr>
             <h2>Function Composition and Inverses</h2>
@@ -335,6 +368,20 @@
                 $$y = (x+3)^2 - 4$$</p>
                 <p><strong>Result:</strong> From this vertex form, we can see that the graph of $y=x^2$ has been shifted 3 units to the <strong>left</strong> and 4 units <strong>down</strong>.</p>
             </div>
+            <div class="example-box check-understanding">
+                <h4>Check Your Understanding</h4>
+                <p><strong>Problem:</strong> Rewrite $y = x^2 - 4x + 1$ in vertex form. What are the horizontal and vertical shifts?</p>
+                <p><em>Pause the playback to allow time to solve.</em></p>
+                <div class="solution" style="display: none;">
+                    <p><strong>Solution:</strong></p>
+                    <p>$$ y = (x^2 - 4x) + 1 $$</p>
+                    <p>Half of -4 is -2. $(-2)^2 = 4$.</p>
+                    <p>$$ y = (x^2 - 4x + 4 - 4) + 1 $$</p>
+                    <p>$$ y = (x - 2)^2 - 4 + 1 $$</p>
+                    <p>$$ y = (x - 2)^2 - 3 $$</p>
+                    <p>The graph is shifted 2 units to the <strong>right</strong> and 3 units <strong>down</strong>.</p>
+                </div>
+            </div>
             <p>That concludes our pre-calculus review. Understanding these function families and how to manipulate them is critical for your success as we move into the core concepts of calculus, starting with limits in our next lecture.</p>
         </div>
     </div>
@@ -355,10 +402,13 @@
             });
             function getElementDelay(element) {
                 let delay = 2000;
+                if (element.classList.contains('check-understanding')) {
+                    return (8000 + 6000) / playbackSpeed; // Pause time + time to read solution
+                }
                 if (element.tagName === 'P' || element.tagName === 'H2' || element.tagName === 'H3' || element.tagName === 'TD' || element.tagName === 'TH' || element.classList.contains('remark') || element.classList.contains('example-box')) {
                     const textContent = element.textContent || '';
                     const wordCount = textContent.split(/\s+/).filter(word => word.length > 0).length;
-                    delay = Math.max(1000, wordCount * 150);
+                    delay = Math.max(1000, wordCount * 200);
                 } else if (element.tagName === 'TABLE' || element.tagName === 'IMG' || element.tagName === 'VIDEO' || element.classList.contains('img-placeholder')) {
                     delay = 4000;
                 } else if (element.tagName === 'HR') {
@@ -371,24 +421,30 @@
                 if (currentElementIndex < elementsToProcess.length) {
                     const element = elementsToProcess[currentElementIndex];
                     element.classList.remove('hidden-text');
-                    currentElementIndex++;
-                    if (window.MathJax) {
-                        MathJax.typesetPromise([element]).then(() => {
-                            const rect = element.getBoundingClientRect();
-                            const isVisible = (rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight));
-                            if (!isVisible) {
-                                element.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                            }
-                        }).catch((err) => console.error('MathJax rendering failed for element:', element, err));
-                    } else {
-                        const rect = element.getBoundingClientRect();
-                        const isVisible = (rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight));
-                        if (!isVisible) {
-                            element.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    
+                    if (element.classList.contains('check-understanding')) {
+                        const solutionDiv = element.querySelector('.solution');
+                        if (solutionDiv) {
+                            setTimeout(() => {
+                                solutionDiv.style.display = 'block';
+                                if(window.MathJax) {
+                                    MathJax.typesetPromise([solutionDiv]);
+                                }
+                            }, 8000 / playbackSpeed);
                         }
                     }
+
+                    if (window.MathJax) {
+                        MathJax.typesetPromise([element]).then(() => {
+                            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }).catch((err) => console.error('MathJax rendering failed:', err));
+                    } else {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+
                     const delay = getElementDelay(element);
                     typingTimeoutId = setTimeout(showNextElement, delay);
+                    currentElementIndex++;
                 } else {
                     pausePlayButton.textContent = 'Restart';
                     isPaused = true;
@@ -398,7 +454,7 @@
                 if (isPaused) {
                     isPaused = false;
                     pausePlayButton.textContent = 'Pause';
-                    if (currentElementIndex === elementsToProcess.length) {
+                    if (currentElementIndex >= elementsToProcess.length) {
                         resetLecture();
                     }
                     showNextElement();
@@ -410,18 +466,16 @@
             }
             function changePlaybackSpeed() {
                 playbackSpeed = parseFloat(speedSelect.value);
-                if (!isPaused) {
-                    clearTimeout(typingTimeoutId);
-                    showNextElement();
-                }
             }
             function showAllContent() {
                 clearTimeout(typingTimeoutId);
                 elementsToProcess.forEach(el => {
                     el.classList.remove('hidden-text');
+                    const solutionDiv = el.querySelector('.solution');
+                    if(solutionDiv) solutionDiv.style.display = 'block';
                 });
                 if (window.MathJax) {
-                    MathJax.typesetPromise([lectureContent]).catch((err) => console.error('MathJax rendering failed for all content:', err));
+                    MathJax.typesetPromise([lectureContent]).catch((err) => console.error('MathJax rendering failed:', err));
                 }
                 currentElementIndex = elementsToProcess.length;
                 isPaused = true;
@@ -431,6 +485,8 @@
                 clearTimeout(typingTimeoutId);
                 elementsToProcess.forEach(el => {
                     el.classList.add('hidden-text');
+                    const solutionDiv = el.querySelector('.solution');
+                    if(solutionDiv) solutionDiv.style.display = 'none';
                 });
                 currentElementIndex = 0;
                 pausePlayButton.textContent = 'Play';
