@@ -393,105 +393,156 @@
             const speedSelect = document.getElementById('speedSelect');
             const showAllButton = document.getElementById('showAllButton');
             const elementsToProcess = Array.from(lectureContent.children);
+            
             let currentElementIndex = 0;
             let isPaused = true;
             let playbackSpeed = 1;
-            let typingTimeoutId;
-            elementsToProcess.forEach(el => {
-                el.classList.add('hidden-text');
-            });
+            let mainTimerId = null;
+            
+            // Pausable timer for solutions
+            let solutionTimer = {
+                id: null,
+                element: null,
+                startTime: 0,
+                remaining: 8000
+            };
+
             function getElementDelay(element) {
-                let delay = 2000;
                 if (element.classList.contains('check-understanding')) {
-                    return (8000 + 6000) / playbackSpeed; // Pause time + time to read solution
+                    // Time to read problem + time to solve + time to read solution
+                    return (3000 + solutionTimer.remaining + 6000) / playbackSpeed; 
                 }
-                if (element.tagName === 'P' || element.tagName === 'H2' || element.tagName === 'H3' || element.tagName === 'TD' || element.tagName === 'TH' || element.classList.contains('remark') || element.classList.contains('example-box')) {
-                    const textContent = element.textContent || '';
-                    const wordCount = textContent.split(/\s+/).filter(word => word.length > 0).length;
-                    delay = Math.max(1000, wordCount * 200);
-                } else if (element.tagName === 'TABLE' || element.tagName === 'IMG' || element.tagName === 'VIDEO' || element.classList.contains('img-placeholder')) {
+                const textContent = element.textContent || '';
+                const wordCount = textContent.split(/\s+/).filter(word => word.length > 0).length;
+                let delay = Math.max(1000, wordCount * 200);
+
+                if (element.tagName === 'TABLE' || element.tagName === 'IMG' || element.classList.contains('img-placeholder')) {
                     delay = 4000;
                 } else if (element.tagName === 'HR') {
                     delay = 500;
                 }
                 return delay / playbackSpeed;
             }
+
+            function startSolutionTimer(element) {
+                const solutionDiv = element.querySelector('.solution');
+                if (!solutionDiv) return;
+
+                solutionTimer.element = solutionDiv;
+                solutionTimer.remaining = 8000 / playbackSpeed;
+                solutionTimer.startTime = Date.now();
+                solutionTimer.id = setTimeout(() => {
+                    solutionDiv.style.display = 'block';
+                    if(window.MathJax) MathJax.typesetPromise([solutionDiv]);
+                    solutionTimer.id = null;
+                }, solutionTimer.remaining);
+            }
+
+            function pauseSolutionTimer() {
+                if (solutionTimer.id) {
+                    clearTimeout(solutionTimer.id);
+                    solutionTimer.remaining -= (Date.now() - solutionTimer.startTime);
+                }
+            }
+
+            function resumeSolutionTimer() {
+                if (solutionTimer.remaining > 0 && solutionTimer.element) {
+                    solutionTimer.startTime = Date.now();
+                    solutionTimer.id = setTimeout(() => {
+                        solutionTimer.element.style.display = 'block';
+                        if(window.MathJax) MathJax.typesetPromise([solutionTimer.element]);
+                        solutionTimer.id = null;
+                    }, solutionTimer.remaining);
+                }
+            }
+            
             function showNextElement() {
-                if (isPaused) return;
-                if (currentElementIndex < elementsToProcess.length) {
-                    const element = elementsToProcess[currentElementIndex];
-                    element.classList.remove('hidden-text');
-                    
-                    if (element.classList.contains('check-understanding')) {
-                        const solutionDiv = element.querySelector('.solution');
-                        if (solutionDiv) {
-                            setTimeout(() => {
-                                solutionDiv.style.display = 'block';
-                                if(window.MathJax) {
-                                    MathJax.typesetPromise([solutionDiv]);
-                                }
-                            }, 8000 / playbackSpeed);
-                        }
-                    }
-
-                    if (window.MathJax) {
-                        MathJax.typesetPromise([element]).then(() => {
-                            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }).catch((err) => console.error('MathJax rendering failed:', err));
-                    } else {
-                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-
-                    const delay = getElementDelay(element);
-                    typingTimeoutId = setTimeout(showNextElement, delay);
-                    currentElementIndex++;
-                } else {
-                    pausePlayButton.textContent = 'Restart';
-                    isPaused = true;
-                }
-            }
-            function togglePausePlay() {
-                if (isPaused) {
-                    isPaused = false;
-                    pausePlayButton.textContent = 'Pause';
+                if (isPaused || currentElementIndex >= elementsToProcess.length) {
                     if (currentElementIndex >= elementsToProcess.length) {
-                        resetLecture();
+                        pausePlayButton.textContent = 'Restart';
+                        isPaused = true;
                     }
-                    showNextElement();
+                    return;
+                }
+
+                const element = elementsToProcess[currentElementIndex];
+                element.classList.remove('hidden-text');
+                
+                if (element.classList.contains('check-understanding')) {
+                    startSolutionTimer(element);
+                }
+
+                if (window.MathJax) {
+                    MathJax.typesetPromise([element]).then(() => {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    });
                 } else {
-                    isPaused = true;
-                    pausePlayButton.textContent = 'Play';
-                    clearTimeout(typingTimeoutId);
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                const delay = getElementDelay(element);
+                mainTimerId = setTimeout(showNextElement, delay);
+                currentElementIndex++;
+            }
+
+            function togglePausePlay() {
+                if (currentElementIndex >= elementsToProcess.length && !isPaused) {
+                     resetLecture();
+                     return;
+                }
+                 if (currentElementIndex >= elementsToProcess.length && isPaused) {
+                     resetLecture();
+                     isPaused = false;
+                     pausePlayButton.textContent = 'Pause';
+                     showNextElement();
+                     return;
+                }
+
+                isPaused = !isPaused;
+                pausePlayButton.textContent = isPaused ? 'Play' : 'Pause';
+
+                if (isPaused) {
+                    clearTimeout(mainTimerId);
+                    pauseSolutionTimer();
+                } else {
+                    resumeSolutionTimer();
+                    showNextElement();
                 }
             }
+
             function changePlaybackSpeed() {
                 playbackSpeed = parseFloat(speedSelect.value);
             }
+
             function showAllContent() {
-                clearTimeout(typingTimeoutId);
+                clearTimeout(mainTimerId);
+                clearTimeout(solutionTimer.id);
                 elementsToProcess.forEach(el => {
                     el.classList.remove('hidden-text');
                     const solutionDiv = el.querySelector('.solution');
                     if(solutionDiv) solutionDiv.style.display = 'block';
                 });
                 if (window.MathJax) {
-                    MathJax.typesetPromise([lectureContent]).catch((err) => console.error('MathJax rendering failed:', err));
+                    MathJax.typesetPromise([lectureContent]);
                 }
                 currentElementIndex = elementsToProcess.length;
                 isPaused = true;
                 pausePlayButton.textContent = 'Restart';
             }
+
             function resetLecture() {
-                clearTimeout(typingTimeoutId);
+                clearTimeout(mainTimerId);
+                clearTimeout(solutionTimer.id);
                 elementsToProcess.forEach(el => {
                     el.classList.add('hidden-text');
                     const solutionDiv = el.querySelector('.solution');
                     if(solutionDiv) solutionDiv.style.display = 'none';
                 });
                 currentElementIndex = 0;
-                pausePlayButton.textContent = 'Play';
                 isPaused = true;
+                pausePlayButton.textContent = 'Play';
             }
+
             pausePlayButton.addEventListener('click', togglePausePlay);
             speedSelect.addEventListener('change', changePlaybackSpeed);
             showAllButton.addEventListener('click', showAllContent);
