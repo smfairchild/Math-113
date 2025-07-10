@@ -3,84 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculus I: Pre-Calculus Review</title>
-    <!-- Load MathJax for LaTeX rendering -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <title>Lecture 1: Pre-Calculus Review (Lines)</title>
+    
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
-    <!-- Load Three.js library for visualization -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+
     <style>
-        /* --- Basic Setup & Typography --- */
+        /* --- UNIFIED STYLES --- */
         body {
-            background-color: #1e1e1e;
-            color: #dcdcdc;
             font-family: 'Cambria', 'Georgia', serif;
             font-size: 24px;
             line-height: 1.8;
-            margin: 0;
-            padding: 2em;
-            overflow: hidden;
+            color: #333;
+            background-color: #fdfdfd;
         }
-
-        /* --- Presentation Container --- */
-        #presentation-container {
+        .container {
             max-width: 900px;
-            margin: 0 auto;
-            padding-bottom: 80px;
+            margin: 20px auto;
+            padding: 25px 40px;
         }
+        h1, h2, h3, h4 {
+            color: #003366;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            font-weight: 400;
+        }
+        h1 { font-size: 2.0em; }
+        h2 { font-size: 1.6em; margin-top: 1.5em; }
+        h3 { font-size: 1.2em; border-bottom: none; }
+        h4 { font-size: 1.1em; border-bottom: none; margin-top: 1.5em; color: #005a9c;}
 
-        /* --- Styling for each line/step --- */
-        .step {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInSlideUp 0.8s ease-out forwards;
+        p, li {
+            font-size: 1em;
+        }
+        table {
+            width: 85%;
+            margin: 30px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 15px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        th {
+            background-color: #f2f8ff;
+            color: #003366;
+        }
+        .hidden-element {
+            display: none;
         }
         
-        @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- Visualization Container --- */
+        /* --- LECTURE 1 VISUALIZATION STYLES --- */
         .visualization-container {
             width: 100%;
             height: 500px;
             margin-top: 1em;
             border-radius: 8px;
             overflow: hidden;
-            background-color: #252525;
-            position: relative; /* Needed for overlay positioning */
+            background-color: #252525; /* Dark background for visualizations */
+            position: relative;
         }
-        
-        /* --- Table Styling --- */
-        table {
-            width: 100%;
-            margin-top: 1em;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #555;
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #333;
-            color: #fff;
+        .formula-overlay {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #87CEEB;
+            font-size: 28px;
+            font-family: 'Cambria', 'Georgia', serif;
+            text-align: center;
+            pointer-events: none;
         }
 
-        /* --- Header Styling --- */
-        h1, h2, h3 {
-            color: #FFFFFF;
-            border-bottom: 2px solid #555;
-            padding-bottom: 10px;
-        }
-        h1 { font-size: 1.5em; }
-        h2 { font-size: 1.3em; }
-        h3 { font-size: 1.1em; }
-        
-        /* --- Controls Styling --- */
+        /* --- LECTURE 1 CONTROLS STYLING --- */
         .controls-container {
             position: fixed;
             bottom: 25px;
@@ -92,8 +102,8 @@
             align-items: center;
             gap: 20px;
             z-index: 1000;
+            color: #fff;
         }
-
         .control-button {
             padding: 10px 20px;
             font-size: 16px;
@@ -108,7 +118,6 @@
         .control-button:hover {
             background-color: #777;
         }
-
         #speed-control {
             display: flex;
             align-items: center;
@@ -119,176 +128,83 @@
         #speed-slider {
             cursor: pointer;
         }
-        
-        /* --- Formula Overlay for Slope Calculation --- */
-        .formula-overlay {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #87CEEB;
-            font-size: 28px;
-            font-family: 'Cambria', 'Georgia', serif;
-            text-align: center;
-            pointer-events: none;
-        }
+
     </style>
 </head>
 <body>
+    <div class="container">
+        <div id="lecture-content">
+            <h1 class="hidden-element">Welcome to your First College Math Course</h1>
+            <p class="hidden-element">Welcome to Calculus I. For many of you, this is your first math course in college, and I want to start by acknowledging that. It's completely normal to have forgotten some concepts over the summer, or to feel that you never quite mastered them in the first place. That's okay. The goal here is to build a strong foundation together.</p>
+            <p class="hidden-element">To that end, this first week will be a review of essential pre-calculus topics. However, this review won't be comprehensive. A key part of learning at the college level is taking ownership of your education. After this week, you are responsible for filling in any gaps in your pre-calculus knowledge as they arise. I am always here to point you to resources, but the initiative must be yours.</p>
+            <p class="hidden-element">Doing college math is different than in high school. We stress deep understanding over formula memorization. You will not be successful if you simply try to memorize formulas and homework problems without understanding the 'why' behind them. My goal is to help you become a critical thinker and a problem solver.</p>
+            <h3 class="hidden-element">Hints on How to Be Successful</h3>
+            <ul class="hidden-element">
+                <li>Stay engaged and ask questions.</li>
+                <li>Form study groups with your classmates.</li>
+                <li>Don't wait until the last minute to do assignments.</li>
+                <li>Focus on understanding concepts, not just getting answers.</li>
+            </ul>
+            <h3 class="hidden-element">Class Structure and Expectations</h3>
+            <p class="hidden-element">Each class is 110 minutes long. We will typically spend 30 minutes on a new topic, 20 minutes on examples, and the remaining 60 minutes on an in-class active learning assignment where you'll work on problems in groups.</p>
+            <p class="hidden-element">When you are in class, you must participate. Using your phone or talking about non-math topics is disrespectful to your classmates who are trying to learn. It can make them feel inferior or that their efforts are not valued. This is an open, equitable classroom where everyone should feel comfortable learning. Please, be considerate of your fellow students.</p>
+            
+            <h2 class="hidden-element">II. Pre-Calculus Review</h2>
+            <h3 class="hidden-element">A. Real Numbers</h3>
+            <p class="hidden-element">We begin with the building blocks of calculus: the real numbers. This is the set of all numbers that can be represented on a continuous line. We denote this set with the symbol $\mathbb{R}$, or sometimes $R^1$ to emphasize it's one-dimensional.</p>
+            <table class="hidden-element">
+                <tr><th>Integers</th><th>Rational Numbers</th><th>Irrational Numbers</th></tr>
+                <tr><td>-5</td><td>$\frac{1}{2}$</td><td>$\pi$</td></tr>
+                <tr><td>0</td><td>-0.75</td><td>$\sqrt{2}$</td></tr>
+                <tr><td>7</td><td>$\frac{10}{3}$</td><td>$e$</td></tr>
+                <tr><td>-100</td><td>2.0</td><td>$\sqrt{17}$</td></tr>
+            </table>
+            <p class="hidden-element">The symbols $\infty$ (infinity) and $-\infty$ (minus infinity) are not numbers themselves. They are concepts representing the idea that the real numbers continue without end in the positive and negative directions.</p>
+            <p class="hidden-element">We can visualize the entire set of real numbers using a number line.</p>
+            <div id="number-line-container" class="visualization-container hidden-element"></div>
+            
+            <h3 class="hidden-element">B. Lines</h3>
+            <p class="hidden-element">One of the most fundamental tools for calculus is the line. The concept of a tangent line is central to differential calculus.</p>
+            <p class="hidden-element">Lines have the general form $y = mx + b$, where $m$ is the slope of the line, and $b$ is the y-intercept.</p>
+            <div id="line-drawing-container" class="visualization-container hidden-element"></div>
+            <p class="hidden-element">The slope of a line determines its steepness and direction.</p>
+            <div id="slope-comparison-container" class="visualization-container hidden-element"></div>
+            <p class="hidden-element">There are different ways to find the equation of a line. While the slope-intercept form is useful, it's more common in calculus to need to find the equation of a line given two points.</p>
+            <p class="hidden-element">In the Cartesian coordinate system ($R^2$), each point is an ordered pair $(x, y)$. For example, the point $P(3,2)$ is located at $x=3$ and $y=2$.</p>
+            <div id="two-point-plot-container" class="visualization-container hidden-element"></div>
+            <p class="hidden-element">To find the equation of the line passing through points M and P, we first compute the slope, which measures the steepness. A key property of lines is that the slope between any two points on the line is always the same.</p>
+            <p class="hidden-element">The slope $m$ is the "rise over run", or the change in y ($\Delta y$) divided by the change in x ($\Delta x$).</p>
+            <div id="slope-calc-container" class="visualization-container hidden-element"></div>
+            <p class="hidden-element">$$ m = \frac{\Delta y}{\Delta x} = \frac{y_2 - y_1}{x_2 - x_1} = \frac{2 - 1}{3 - 1} = \frac{1}{2} $$</p>
+            <p class="hidden-element">With the slope, we can use the point-slope formula, $y - y_1 = m(x - x_1)$, to find the equation.</p>
+            <h4 class="hidden-element">Using Point P(3,2):</h4>
+            <p class="hidden-element">
+                $y - 2 = \frac{1}{2}(x - 3)$<br>
+                $y - 2 = \frac{1}{2}x - \frac{3}{2}$<br>
+                $y = \frac{1}{2}x + \frac{1}{2}$
+            </p>
+            <h4 class="hidden-element">Using Point M(1,1):</h4>
+            <p class="hidden-element">
+                $y - 1 = \frac{1}{2}(x - 1)$<br>
+                $y - 1 = \frac{1}{2}x - \frac{1}{2}$<br>
+                $y = \frac{1}{2}x + \frac{1}{2}$
+            </p>
+            <p class="hidden-element">As you can see, both points yield the same equation, as expected.</p>
 
-    <div id="presentation-container">
-        <!-- The solution will be dynamically added here -->
+        </div>
     </div>
 
     <div class="controls-container">
         <button id="main-button" class="control-button">Start</button>
-        <button id="mute-button" class="control-button">Mute</button>
         <div id="speed-control">
             <label for="speed-slider">Speed:</label>
-            <input type="range" min="0.25" max="2" value="1" step="0.25" id="speed-slider">
+            <input type="range" min="0.5" max="2" value="1" step="0.25" id="speed-slider">
             <span id="speed-label">1.00x</span>
         </div>
     </div>
 
     <script>
-        // --- Configuration ---
-        const container = document.getElementById('presentation-container');
-        const mainButton = document.getElementById('main-button');
-        const muteButton = document.getElementById('mute-button');
-        const speedSlider = document.getElementById('speed-slider');
-        const speedLabel = document.getElementById('speed-label');
-
-        const solutionSteps = [
-            // --- Lecture Introduction ---
-            { content: `<h1>Welcome to your First College Math Course</h1>`, delay: 1000 },
-            { content: `<p>Welcome to Calculus I. For many of you, this is your first math course in college, and I want to start by acknowledging that. It's completely normal to have forgotten some concepts over the summer, or to feel that you never quite mastered them in the first place. That's okay. The goal here is to build a strong foundation together.</p>`, delay: 1000 },
-            { content: `<p>To that end, this first week will be a review of essential pre-calculus topics. However, this review won't be comprehensive. A key part of learning at the college level is taking ownership of your education. After this week, you are responsible for filling in any gaps in your pre-calculus knowledge as they arise. I am always here to point you to resources, but the initiative must be yours.</p>`, delay: 1000 },
-            { content: `<p>Doing college math is different than in high school. We stress deep understanding over formula memorization. You will not be successful if you simply try to memorize formulas and homework problems without understanding the 'why' behind them. My goal is to help you become a critical thinker and a problem solver.</p>`, delay: 1000 },
-            { content: `<h3>Hints on How to Be Successful</h3>
-                        <ul>
-                            <li>Stay engaged and ask questions.</li>
-                            <li>Form study groups with your classmates.</li>
-                            <li>Don't wait until the last minute to do assignments.</li>
-                            <li>Focus on understanding concepts, not just getting answers.</li>
-                        </ul>`, delay: 1000 },
-            { content: `<h3>Class Structure and Expectations</h3>
-                        <p>Each class is 110 minutes long. We will typically spend 30 minutes on a new topic, 20 minutes on examples, and the remaining 60 minutes on an in-class active learning assignment where you'll work on problems in groups.</p>`, delay: 1000 },
-            { content: `<p>When you are in class, you must participate. Using your phone or talking about non-math topics is disrespectful to your classmates who are trying to learn. It can make them feel inferior or that their efforts are not valued. This is an open, equitable classroom where everyone should feel comfortable learning. Please, be considerate of your fellow students.</p>`, delay: 1000 },
-            
-            // --- Pre-Calculus Review ---
-            { content: `<h2>II. Pre-Calculus Review</h2>`, delay: 1000 },
-            { content: `<h3>A. Real Numbers</h3>`, delay: 1000 },
-            { content: `<p>We begin with the building blocks of calculus: the real numbers. This is the set of all numbers that can be represented on a continuous line. We denote this set with the symbol \\(\\mathbb{R}\\), or sometimes \\(R^1\\) to emphasize it's one-dimensional.</p>`, delay: 1000 },
-            { type: 'table', content: `
-                <table>
-                    <tr><th>Integers</th><th>Rational Numbers</th><th>Irrational Numbers</th></tr>
-                    <tr><td>-5</td><td>\\( \\frac{1}{2} \\)</td><td>\\( \\pi \\)</td></tr>
-                    <tr><td>0</td><td>-0.75</td><td>\\( \\sqrt{2} \\)</td></tr>
-                    <tr><td>7</td><td>\\( \\frac{10}{3} \\)</td><td>\\( e \\)</td></tr>
-                    <tr><td>-100</td><td>2.0</td><td>\\( \\sqrt{17} \\)</td></tr>
-                </table>`, delay: 1000 },
-            { content: `<p>The symbols \\( \\infty \\) (infinity) and \\( -\\infty \\) (minus infinity) are not numbers themselves. They are concepts representing the idea that the real numbers continue without end in the positive and negative directions.</p>`, delay: 1000 },
-            { content: `<p>We can visualize the entire set of real numbers using a number line.</p>`, delay: 1000 },
-            { type: 'number-line', content: `<div id="number-line-container" class="visualization-container"></div>`, delay: 3000 },
-            
-            { content: `<h3>B. Lines</h3>`, delay: 1000 },
-            { content: `<p>One of the most fundamental tools for calculus is the line. The concept of a tangent line is central to differential calculus.</p>`, delay: 1000 },
-            { content: `<p>Lines have the general form \\( y = mx + b \\), where \\(m\\) is the slope of the line, and \\(b\\) is the y-intercept.</p>`, delay: 1000 },
-            { type: 'line-drawing', content: `<div id="line-drawing-container" class="visualization-container"></div>`, delay: 3000 },
-            { content: `<p>The slope of a line determines its steepness and direction.</p>`, delay: 1000 },
-            { type: 'slope-comparison', content: `<div id="slope-comparison-container" class="visualization-container"></div>`, delay: 9000 },
-            { content: `<p>There are different ways to find the equation of a line. While the slope-intercept form is useful, it's more common in calculus to need to find the equation of a line given two points.</p>`, delay: 1000 },
-            { content: `<p>In the Cartesian coordinate system (\\(R^2\\)), each point is an ordered pair \\((x, y)\\). For example, the point \\(P(3,2)\\) is located at \\(x=3\\) and \\(y=2\\).</p>`, delay: 1000 },
-            { type: 'two-point-plot', content: `<div id="two-point-plot-container" class="visualization-container"></div>`, delay: 3000 },
-            { content: `<p>To find the equation of the line passing through points M and P, we first compute the slope, which measures the steepness. A key property of lines is that the slope between any two points on the line is always the same.</p>`, delay: 1000 },
-            { content: `<p>The slope \\(m\\) is the "rise over run", or the change in y (\\(\\Delta y\\)) divided by the change in x (\\(\\Delta x\\)).</p>`, delay: 1000 },
-            { type: 'slope-calculation', content: `<div id="slope-calc-container" class="visualization-container"><div id="formula-overlay-slope-calc" class="formula-overlay"></div></div>`, delay: 5000 },
-            { content: `$$ m = \\frac{\\Delta y}{\\Delta x} = \\frac{y_2 - y_1}{x_2 - x_1} = \\frac{2 - 1}{3 - 1} = \\frac{1}{2} $$`, delay: 1000 },
-            { content: `<p>With the slope, we can use the point-slope formula, \\( y - y_1 = m(x - x_1) \\), to find the equation.</p>`, delay: 1000 },
-            { content: `<h4>Using Point P(3,2):</h4>
-                        <p>\\( y - 2 = \\frac{1}{2}(x - 3) \\)<br>
-                           \\( y - 2 = \\frac{1}{2}x - \\frac{3}{2} \\)<br>
-                           \\( y = \\frac{1}{2}x + \\frac{1}{2} \\)</p>`, delay: 1000 },
-            { content: `<h4>Using Point M(1,1):</h4>
-                        <p>\\( y - 1 = \\frac{1}{2}(x - 1) \\)<br>
-                           \\( y - 1 = \\frac{1}{2}x - \\frac{1}{2} \\)<br>
-                           \\( y = \\frac{1}{2}x + \\frac{1}{2} \\)</p>`, delay: 1000 },
-            { content: `<p>As you can see, both points yield the same equation, as expected.</p>`, delay: 1000 },
-        ];
-
-        // --- Speech Synthesis Engine ---
-        const synth = window.speechSynthesis;
-        let kelseyVoice = null;
-        let isMuted = false;
-
-        function populateVoiceList() {
-            if(typeof synth === 'undefined') {
-                return;
-            }
-            let voices = synth.getVoices();
-            kelseyVoice = voices.find(voice => voice.lang === 'en-US' && voice.name.includes('David')) || 
-                          voices.find(voice => voice.lang === 'en-US' && voice.name.includes('Google US English')) ||
-                          voices.find(voice => voice.lang === 'en-US' && voice.gender === 'male') ||
-                          voices.find(voice => voice.lang === 'en-US'); 
-        }
-
-        populateVoiceList();
-        if (synth.onvoiceschanged !== undefined) {
-            synth.onvoiceschanged = populateVoiceList;
-        }
-
-        function speakText(text, onEndCallback) {
-            if (isMuted || !text.trim() || !kelseyVoice) {
-                onEndCallback();
-                return;
-            }
-            
-            synth.cancel();
-
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.voice = kelseyVoice;
-            utterance.rate = playbackRate;
-            
-            let hasEnded = false;
-            const safeOnEnd = () => {
-                if (hasEnded) return;
-                hasEnded = true;
-                onEndCallback();
-            };
-
-            utterance.onend = safeOnEnd;
-            utterance.onerror = (event) => {
-                console.error('SpeechSynthesisUtterance.onerror', event);
-                safeOnEnd();
-            };
-            
-            setTimeout(() => {
-                synth.speak(utterance);
-            }, 50);
-        }
-        
-        function getSpeakableText(element) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = element.innerHTML;
-            
-            tempDiv.querySelectorAll('mjx-container').forEach(el => {
-                let latex = el.getAttribute('aria-label');
-                if (latex) {
-                    latex = latex.replace(/\\frac{(.*?)}{(.*?)}/g, '$1 over $2');
-                    latex = latex.replace(/\\sqrt{(.*?)}/g, 'the square root of $1');
-                    latex = latex.replace(/\\pi/g, 'pi');
-                    latex = latex.replace(/\\infty/g, 'infinity');
-                    latex = latex.replace(/\\Delta/g, 'delta');
-                    latex = latex.replace(/\\/g, '');
-                    el.innerText = ` ${latex} `;
-                }
-            });
-            
-            return tempDiv.textContent || tempDiv.innerText || '';
-        }
-
-        // --- Visualization Functions ---
-        
+        // --- VISUALIZATION FUNCTIONS (from Lecture 1) ---
         function create2DScene(containerId, xRange, yRange) {
             const vizContainer = document.getElementById(containerId);
             if (!vizContainer) return null;
@@ -296,8 +212,8 @@
             const scene = new THREE.Scene();
             const width = vizContainer.clientWidth;
             const height = vizContainer.clientHeight;
-
             let camera;
+
             if (Array.isArray(xRange)) {
                 const xPadding = 0.5, yPadding = 0.5;
                 const xMin = xRange[0] - xPadding, xMax = xRange[1] + xPadding;
@@ -320,19 +236,18 @@
                 camera = new THREE.OrthographicCamera(-xRangeWithPadding, xRangeWithPadding, yRangeWithPadding, -yRangeWithPadding, 1, 1000);
             }
             camera.position.set(0, 0, 10);
-
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(width, height);
+            vizContainer.innerHTML = ''; // Clear any previous content
             vizContainer.appendChild(renderer.domElement);
-            
-            return { scene, camera, renderer };
+            return { scene, camera, renderer, vizContainer };
         }
         
         function createTextLabel(text, x, y, z, worldHeight, color = '#dcdcdc') {
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
-            const fontSize = 70; 
+            const fontSize = 70;
             context.font = `bold ${fontSize}px Arial`;
             const textMetrics = context.measureText(text);
             canvas.width = textMetrics.width;
@@ -352,7 +267,7 @@
             return sprite;
         }
 
-        function createAxes(scene, xRange, yRange, labelSize = 0.5) {
+        function createAxes(scene, xRange, yRange) {
             const material = new THREE.LineBasicMaterial({ color: 0xaaaaaa });
             const xMin = Array.isArray(xRange) ? xRange[0] : -xRange;
             const xMax = Array.isArray(xRange) ? xRange[1] : xRange;
@@ -374,46 +289,34 @@
             }
         }
 
-        // --- Finalized Graphics ---
-        function initNumberLine() {
-            const setup = create2DScene('number-line-container', 15, 15);
+        function initNumberLine(containerId, playbackRate) {
+            const setup = create2DScene(containerId, 15, 15);
             if (!setup) return;
             const { scene, camera, renderer } = setup;
             const material = new THREE.LineBasicMaterial({ color: 0xffffff });
             const lineStart = -12, lineEnd = 12;
             scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(lineStart, 0, 0), new THREE.Vector3(lineEnd, 0, 0)]), material));
             const arrowGeom = new THREE.ConeGeometry(0.3, 0.8, 8);
-            const leftArrow = new THREE.Mesh(arrowGeom, material);
-            leftArrow.position.x = lineStart;
-            leftArrow.rotation.z = Math.PI / 2;
-            scene.add(leftArrow);
-            const rightArrow = new THREE.Mesh(arrowGeom, material);
-            rightArrow.position.x = lineEnd;
-            rightArrow.rotation.z = -Math.PI / 2;
-            scene.add(rightArrow);
+            scene.add(new THREE.Mesh(arrowGeom, material).translateX(lineStart).rotateZ(Math.PI / 2));
+            scene.add(new THREE.Mesh(arrowGeom, material).translateX(lineEnd).rotateZ(-Math.PI / 2));
             for (let i = -10; i <= 10; i+=2) {
                 scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(i, -0.4, 0), new THREE.Vector3(i, 0.4, 0)]), material));
-                scene.add(createTextLabel(i.toString(), i, -1.5, 0, 1.2)); 
+                scene.add(createTextLabel(i.toString(), i, -1.5, 0, 1.2));
             }
             scene.add(createTextLabel('-∞', lineStart - 2.0, 0, 0, 1.2));
             scene.add(createTextLabel('+∞', lineEnd + 2.0, 0, 0, 1.2));
             renderer.render(scene, camera);
         }
 
-        function initLineDrawingAnimation() {
-            const setup = create2DScene('line-drawing-container', 4.5, 4.5);
+        function initLineDrawingAnimation(containerId, playbackRate) {
+            const setup = create2DScene(containerId, 4.5, 4.5);
             if (!setup) return;
             const { scene, camera, renderer } = setup;
             createAxes(scene, 4, 4);
-            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x87CEEB, linewidth: 2 });
-            scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-2.5, -4, 0), new THREE.Vector3(1.5, 4, 0)]), lineMaterial));
+            scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-2.5, -4, 0), new THREE.Vector3(1.5, 4, 0)]), new THREE.LineBasicMaterial({ color: 0x87CEEB, linewidth: 2 })));
             const dotMat = new THREE.MeshBasicMaterial({ color: 0xFFD700 });
-            const interceptPoint = new THREE.Mesh(new THREE.CircleGeometry(0.1, 32), dotMat);
-            interceptPoint.position.set(0, 1, 0);
-            scene.add(interceptPoint);
-            const newPoint = new THREE.Mesh(new THREE.CircleGeometry(0.1, 32), dotMat);
-            newPoint.position.set(1, 3, 0);
-            scene.add(newPoint);
+            scene.add(new THREE.Mesh(new THREE.CircleGeometry(0.1, 32), dotMat).position.set(0, 1, 0));
+            scene.add(new THREE.Mesh(new THREE.CircleGeometry(0.1, 32), dotMat).position.set(1, 3, 0));
             const labelColor = '#87CEEB', labelX = -3.5;
             scene.add(createTextLabel("y = 2x + 1", labelX, 3.5, 0, 0.6, labelColor));
             scene.add(createTextLabel("Slope m = 2", labelX, 2.7, 0, 0.4, labelColor));
@@ -421,14 +324,15 @@
             renderer.render(scene, camera);
         }
 
-        function initSlopeComparisonAnimation() {
-            const setup = create2DScene('slope-comparison-container', 5.5, 5.5);
+        function initSlopeComparisonAnimation(containerId, playbackRate) {
+            const setup = create2DScene(containerId, 5.5, 5.5);
             if (!setup) return;
             const { scene, camera, renderer } = setup;
             createAxes(scene, 5, 5);
             const positiveSlopes = [{ m: 10, color: 0x4169E1 }, { m: 2, color: 0x87CEEB }, { m: 0.5, color: 0xFFD700 }];
             const negativeSlopes = [{ m: -0.5, color: 0xFFB6C1 }, { m: -2, color: 0xEE82EE }, { m: -10, color: 0xFF00FF }];
             const positiveObjects = [], negativeObjects = [];
+
             function drawSlopes(slopeArray, objectArray) {
                 slopeArray.forEach(s => {
                     const material = new THREE.LineBasicMaterial({ color: s.color, linewidth: 2 });
@@ -441,49 +345,49 @@
                 });
                 renderer.render(scene, camera);
             }
-            function clearObjects(objectArray) { objectArray.forEach(obj => scene.remove(obj)); renderer.render(scene, camera); }
+            function clearObjects(objectArray) { objectArray.forEach(obj => scene.remove(obj)); }
+            
             setTimeout(() => drawSlopes(positiveSlopes, positiveObjects), 1000 / playbackRate);
             setTimeout(() => clearObjects(positiveObjects), 4000 / playbackRate);
             setTimeout(() => drawSlopes(negativeSlopes, negativeObjects), 5000 / playbackRate);
             setTimeout(() => { positiveObjects.forEach(obj => scene.add(obj)); renderer.render(scene, camera); }, 8000 / playbackRate);
         }
 
-        function initTwoPointPlot() {
-            const setup = create2DScene('two-point-plot-container', 5.5, 5.5);
+        function initTwoPointPlot(containerId, playbackRate) {
+            const setup = create2DScene(containerId, 5.5, 5.5);
             if (!setup) return;
             const { scene, camera, renderer } = setup;
             createAxes(scene, 5, 5);
             const dotSize = 0.08, labelSize = 0.35, labelOffset = 0.2;
-            const pointM = new THREE.Mesh(new THREE.CircleGeometry(dotSize, 32), new THREE.MeshBasicMaterial({ color: 0xFFD700 }));
-            pointM.position.set(1, 1, 0);
-            scene.add(pointM);
+            scene.add(new THREE.Mesh(new THREE.CircleGeometry(dotSize, 32), new THREE.MeshBasicMaterial({ color: 0xFFD700 })).position.set(1, 1, 0));
             scene.add(createTextLabel("M(1,1)", 1, 1 + dotSize + labelOffset, 0, labelSize, '#FFD700'));
-            const pointP = new THREE.Mesh(new THREE.CircleGeometry(dotSize, 32), new THREE.MeshBasicMaterial({ color: 0x87CEEB }));
-            pointP.position.set(3, 2, 0);
-            scene.add(pointP);
+            scene.add(new THREE.Mesh(new THREE.CircleGeometry(dotSize, 32), new THREE.MeshBasicMaterial({ color: 0x87CEEB })).position.set(3, 2, 0));
             scene.add(createTextLabel("P(3,2)", 3, 2 + dotSize + labelOffset, 0, labelSize, '#87CEEB'));
             renderer.render(scene, camera);
         }
 
-        function initSlopeCalculationAnimation() {
-            const setup = create2DScene('slope-calc-container', [0, 5], [0, 4]);
+        function initSlopeCalculationAnimation(containerId, playbackRate) {
+            const setup = create2DScene(containerId, [0, 5], [0, 4]);
             if (!setup) return;
-            const { scene, camera, renderer } = setup;
+            const { scene, camera, renderer, vizContainer } = setup;
             createAxes(scene, [0, 5], [0, 4]);
+
+            // --- FIX: Dynamically create the formula overlay div ---
+            const formulaDiv = document.createElement('div');
+            formulaDiv.className = 'formula-overlay';
+            vizContainer.appendChild(formulaDiv);
+
             const dotSize = 0.05, labelSize = 0.16, labelOffset = 0.1;
-            const pointM = new THREE.Mesh(new THREE.CircleGeometry(dotSize, 32), new THREE.MeshBasicMaterial({ color: 0xFFD700 }));
-            pointM.position.set(1, 1, 0);
-            scene.add(pointM);
+            scene.add(new THREE.Mesh(new THREE.CircleGeometry(dotSize, 32), new THREE.MeshBasicMaterial({ color: 0xFFD700 })).position.set(1, 1, 0));
             scene.add(createTextLabel("M(1,1)", 0.8, 1 + dotSize + labelOffset, 0, labelSize, '#FFD700'));
-            const pointP = new THREE.Mesh(new THREE.CircleGeometry(dotSize, 32), new THREE.MeshBasicMaterial({ color: 0x87CEEB }));
-            pointP.position.set(3, 2, 0);
-            scene.add(pointP);
+            scene.add(new THREE.Mesh(new THREE.CircleGeometry(dotSize, 32), new THREE.MeshBasicMaterial({ color: 0x87CEEB })).position.set(3, 2, 0));
             scene.add(createTextLabel("P(3,2)", 3, 2 + dotSize + labelOffset, 0, labelSize, '#87CEEB'));
             scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(1, 1, 0), new THREE.Vector3(3, 2, 0)]), new THREE.LineBasicMaterial({ color: 0xffffff })));
-            const formulaDiv = document.getElementById('formula-overlay-slope-calc');
+            
             formulaDiv.innerHTML = `$$ m = \\text{Slope} = \\frac{\\text{Rise}}{\\text{Run}} = \\frac{\\Delta y}{\\Delta x} = \\frac{1}{2} $$`;
             MathJax.typesetPromise([formulaDiv]);
             const dashedMat = new THREE.LineDashedMaterial({ color: 0xffb6c1, dashSize: 0.1, gapSize: 0.05 });
+            
             setTimeout(() => {
                 const runLine = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(1, 1, 0), new THREE.Vector3(3, 1, 0)]), dashedMat);
                 runLine.computeLineDistances();
@@ -501,100 +405,112 @@
             renderer.render(scene, camera);
         }
 
-        // --- Presentation Engine ---
-        let currentStep = 0, isPaused = false, hasStarted = false, timerId = null, playbackRate = 1.0;
+        // --- PRESENTATION ENGINE ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const lectureContent = document.getElementById('lecture-content');
+            const mainButton = document.getElementById('main-button');
+            const speedSlider = document.getElementById('speed-slider');
+            const speedLabel = document.getElementById('speed-label');
+            const elements = Array.from(lectureContent.children);
 
-        function runPresentation() {
-            if (isPaused) return;
-            if (currentStep >= solutionSteps.length) {
-                const controls = document.querySelector('.controls-container');
-                if(controls) controls.style.display = 'none';
-                document.body.style.overflow = 'auto';
+            let currentIndex = 0;
+            let isPaused = true;
+            let hasStarted = false;
+            let playbackRate = 1.0;
+            let timerId = null;
+
+            function getElementDelay(element) {
+                const text = element.textContent || '';
+                const wordCount = text.split(/\s+/).filter(Boolean).length;
+                let delay = Math.max(1000, wordCount * 250); // Base delay on word count
+
+                if (element.classList.contains('visualization-container')) {
+                    const id = element.id;
+                    if (id === 'slope-comparison-container') delay = 9000;
+                    else if (id === 'slope-calc-container') delay = 5000;
+                    else delay = 3000;
+                }
+                return delay / playbackRate;
+            }
+            
+            function triggerVisualization(element) {
+                const id = element.id;
+                if (!id || !element.classList.contains('visualization-container')) return;
+
+                switch(id) {
+                    case 'number-line-container': initNumberLine(id, playbackRate); break;
+                    case 'line-drawing-container': initLineDrawingAnimation(id, playbackRate); break;
+                    case 'slope-comparison-container': initSlopeComparisonAnimation(id, playbackRate); break;
+                    case 'two-point-plot-container': initTwoPointPlot(id, playbackRate); break;
+                    case 'slope-calc-container': initSlopeCalculationAnimation(id, playbackRate); break;
+                }
+            }
+
+            function showNextElement() {
+                if (isPaused || currentIndex >= elements.length) {
+                    if (currentIndex >= elements.length) mainButton.textContent = "Restart";
+                    return;
+                }
+
+                const element = elements[currentIndex];
+                element.classList.remove('hidden-element');
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                if(window.MathJax) {
+                    MathJax.typesetPromise([element]);
+                }
+                
+                triggerVisualization(element);
+                
+                const delay = getElementDelay(element);
+                timerId = setTimeout(() => {
+                    currentIndex++;
+                    showNextElement();
+                }, delay);
+            }
+
+            function resetPresentation() {
                 clearTimeout(timerId);
-                return; 
-            }
-            const stepData = solutionSteps[currentStep];
-            const stepElement = document.createElement('div');
-            stepElement.className = 'step';
-            stepElement.innerHTML = stepData.content;
-            container.appendChild(stepElement);
-
-            switch(stepData.type) {
-                case 'number-line': initNumberLine(); break;
-                case 'line-drawing': initLineDrawingAnimation(); break;
-                case 'slope-comparison': initSlopeComparisonAnimation(); break;
-                case 'two-point-plot': initTwoPointPlot(); break;
-                case 'slope-calculation': initSlopeCalculationAnimation(); break;
-            }
-
-            MathJax.typesetPromise([stepElement]).then(() => {
-                stepElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                
-                const proceed = () => {
-                    currentStep++;
-                    if (!isPaused) {
-                       timerId = setTimeout(runPresentation, stepData.delay);
+                elements.forEach(el => el.classList.add('hidden-element'));
+                // Clear visualization containers
+                elements.forEach(el => {
+                    if(el.classList.contains('visualization-container')) {
+                        el.innerHTML = '';
                     }
-                };
-                
-                const textToSpeak = getSpeakableText(stepElement);
-                speakText(textToSpeak, proceed);
-            });
-        }
-
-        mainButton.addEventListener('click', () => {
-            if (!hasStarted) {
-                hasStarted = true;
+                });
+                currentIndex = 0;
                 isPaused = false;
+                hasStarted = true;
                 mainButton.textContent = 'Pause';
-                document.body.style.overflow = 'hidden';
-                runPresentation();
-            } else {
-                isPaused = !isPaused;
-                mainButton.textContent = isPaused ? 'Play' : 'Pause';
-                if (isPaused) {
-                    clearTimeout(timerId);
-                    if (synth.speaking) synth.pause();
-                    document.body.style.overflow = 'auto';
+                showNextElement();
+            }
+
+            mainButton.addEventListener('click', () => {
+                if (!hasStarted) {
+                    hasStarted = true;
+                    isPaused = false;
+                    mainButton.textContent = 'Pause';
+                    showNextElement();
                 } else {
-                    document.body.style.overflow = 'hidden';
-                    if (synth.paused) {
-                        synth.resume();
+                    if (currentIndex >= elements.length) { // If at the end, restart
+                        resetPresentation();
+                        return;
+                    }
+                    isPaused = !isPaused;
+                    mainButton.textContent = isPaused ? 'Play' : 'Pause';
+                    if (isPaused) {
+                        clearTimeout(timerId);
                     } else {
-                        runPresentation();
+                        showNextElement();
                     }
                 }
-            }
-        });
-        
-        muteButton.addEventListener('click', () => {
-            isMuted = !isMuted;
-            muteButton.textContent = isMuted ? 'Unmute' : 'Mute';
-            if (isMuted) {
-                synth.cancel();
-            }
-        });
+            });
 
-        speedSlider.addEventListener('input', (e) => {
-            playbackRate = parseFloat(e.target.value);
-            speedLabel.textContent = `${playbackRate.toFixed(2)}x`;
-            // If speaking, cancel and restart with new rate to apply immediately
-            if (synth.speaking && !isPaused) {
-                const currentStepElement = container.lastElementChild;
-                if (currentStepElement) {
-                    const textToSpeak = getSpeakableText(currentStepElement);
-                    const proceed = () => {
-                        // This callback is tricky, as the original timer is still running.
-                        // For simplicity, we let the original timer handle the next step.
-                    };
-                    speakText(textToSpeak, proceed);
-                }
-            }
+            speedSlider.addEventListener('input', (e) => {
+                playbackRate = parseFloat(e.target.value);
+                speedLabel.textContent = `${playbackRate.toFixed(2)}x`;
+            });
         });
-
-        // Don't start automatically, wait for the user to click "Start"
-        // window.onload = runPresentation;
     </script>
-
 </body>
 </html>
