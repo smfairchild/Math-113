@@ -181,7 +181,7 @@
             <p>Now the slope of the secant line is not the slope of the tangent, but it is an approximation. And we can improve this approximation by choosing our second point $Q$ to be closer and closer to $P$. As $Q$ slides along the curve towards $P$, the secant line slope changes and becomes a better and better approximation of the slope of the tangent line. The slope of the secant gets closer to the slope of the tangent.</p>
             
             <p style="text-align: center; font-style: italic; font-size: 1.1em; margin-top: 30px; margin-bottom: 30px;">
-                <a href="https://www.desmos.com/calculator/your_animation_link_here" target="_blank">Click here to explore how the secant line approaches the tangent line.</a>
+                <a href="https://www.geogebra.org/classic/e5ubg9em" target="_blank">Click here to explore how the secant line approaches the tangent line.</a>
             </p>
 
             <div class="example-box">
@@ -369,21 +369,8 @@
                 if (element.tagName === 'TABLE' || element.tagName === 'IMG' || element.classList.contains('img-placeholder')) return 4000;
                 if (element.tagName === 'HR') return 500;
                 
-                let baseDelay = Math.max(1000, wordCount * 250);
-
-                if (element.classList.contains('check-understanding')) {
-                    // For CYU blocks, the delay is for reading the problem text. The solution pause is separate.
-                    const solutionDiv = element.querySelector('.solution');
-                    const solutionText = solutionDiv.textContent || '';
-                    const solutionWordCount = solutionText.split(/\s+/).filter(word => word.length > 0).length;
-                    baseDelay -= (solutionWordCount * 250); // Subtract solution time from block time
-                } else if (element.querySelector('.solution')) {
-                    // This handles getting delay for a solution div itself
-                    const solutionWordCount = textContent.split(/\s+/).filter(word => word.length > 0).length;
-                    baseDelay = Math.max(1000, solutionWordCount * 250)
-                }
-
-                return baseDelay;
+                // Use a standard words-per-minute calculation for paragraphs and headers
+                return Math.max(1000, wordCount * 250); 
             }
             
             function playNextElement() {
@@ -406,24 +393,25 @@
                     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
 
-                let delay = getBaseDelay(element) / playbackSpeed;
+                let delay = getBaseDelay(element) / parseFloat(speedSelect.value);
 
                 if (element.classList.contains('check-understanding')) {
+                    const solutionDiv = element.querySelector('.solution');
+                    
                     // The first timer is for reading the question.
                     timerId = setTimeout(() => {
                         if (isPaused) return;
                         
                         // The second timer is the 8-second pause for the student to solve.
-                        const solutionPauseDelay = 8000 / playbackSpeed;
+                        const solutionPauseDelay = 8000 / parseFloat(speedSelect.value);
                         timerId = setTimeout(() => {
                             if (isPaused) return;
 
-                            const solutionDiv = element.querySelector('.solution');
                             solutionDiv.style.display = 'block';
                             if (window.MathJax) MathJax.typesetPromise([solutionDiv]);
                             
                             // The third timer is for reading the now-visible solution.
-                            const solutionReadDelay = getBaseDelay(solutionDiv) / playbackSpeed;
+                            const solutionReadDelay = getBaseDelay(solutionDiv) / parseFloat(speedSelect.value);
                             timerId = setTimeout(() => {
                                 currentElementIndex++;
                                 playNextElement();
@@ -456,7 +444,11 @@
             }
 
             function changePlaybackSpeed() {
-                playbackSpeed = parseFloat(speedSelect.value);
+                // If playing, restart the current timer with the new speed
+                if (!isPaused) {
+                    clearTimeout(timerId);
+                    playNextElement();
+                }
             }
 
             function showAllContent() {
