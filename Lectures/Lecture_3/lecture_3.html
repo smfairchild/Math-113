@@ -82,23 +82,7 @@
         .example-box p {
             font-size: 0.95em;
         }
-        .img-placeholder {
-            max-width: 80%;
-            height: 400px;
-            display: block;
-            margin: 30px auto;
-            border: 2px dashed #ccc;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #999;
-            font-style: italic;
-            font-size: 1.2em;
-            background-color: #f9f9f9;
-        }
-        img, video {
+        img {
             max-width: 100%;
             height: auto;
             display: block;
@@ -174,7 +158,7 @@
             <p>We all have an intuitive idea of a tangent line. For a circle, it’s a line that just "touches" the circle at one point. For a general curve, the tangent line at a point $P$ is the line that best models the curve's direction at that exact spot.</p>
             <p>The challenge is this: to find the slope of a line, we need two points. But for the tangent line, we only know one point, $P$. So how can we find its slope? We'll use an approximation strategy. Instead of the tangent, let's start with a <strong>secant line</strong>—a line that goes through our point $P$ and a *second*, nearby point $Q$ on the curve.  Don't worry, secant is just a fancy word meaning line that cuts through two points on a curve.</p>
 
-            <img src="media/tangent_secant_lines.png" alt="A diagram showing a tangent line at point P and a secant line through points P and Q.">
+            <img src="media/secant_tangent.png" alt="A diagram showing a tangent line at point P and a secant line through points P and Q.">
             
             <p>If our point $P$ has coordinates $(a, f(a))$ and our second point $Q$ has coordinates $(x, f(x))$, we can easily calculate the slope of the secant line through them:</p>
             <p>$$m_{sec} = \frac{\text{change in } y}{\text{change in } x} = \frac{f(x) - f(a)}{x - a}$$</p>
@@ -366,7 +350,7 @@
                 const textContent = element.textContent || '';
                 const wordCount = textContent.split(/\s+/).filter(word => word.length > 0).length;
                 
-                if (element.tagName === 'TABLE' || element.tagName === 'IMG' || element.classList.contains('img-placeholder')) return 4000;
+                if (element.tagName === 'TABLE' || element.tagName === 'IMG') return 4000;
                 if (element.tagName === 'HR') return 500;
                 
                 // Use a standard words-per-minute calculation for paragraphs and headers
