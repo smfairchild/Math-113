@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculus - Lecture 5: The Limit Laws</title>
+
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        body {
+            font-family: 'Cambria', 'Georgia', serif;
+            font-size: 24px;
+            line-height: 1.8;
+            color: #333;
+            background-color: #fdfdfd;
+            overflow-y: scroll;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 25px 40px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            background-color: #fff;
+        }
+        h1, h2, h3, h4 {
+            color: #003366;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            font-weight: 400;
+        }
+        h1 { font-size: 2.0em; }
+        h2 { font-size: 1.6em; margin-top: 1.5em; }
+        h3 { font-size: 1.2em; border-bottom: none; }
+        h4 { font-size: 1.1em; border-bottom: none; color: #005a9c; }
+        p {
+            font-size: 1em;
+        }
+        table {
+            width: 85%;
+            margin: 30px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 15px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .remark {
+            background-color: #f0f7ff;
+            border-left: 5px solid #005a9c;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 1em;
+        }
+        .limit-laws-list li {
+            margin-bottom: 15px;
+        }
+        .example-box {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .example-box h3, .check-understanding h4 {
+            margin-top: 0;
+            color: #005a9c;
+            font-size: 1.1em;
+        }
+        .example-box p {
+            font-size: 0.95em;
+        }
+        iframe {
+            display: block;
+            margin: 30px auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        th {
+            background-color: #f2f8ff;
+            color: #003366;
+        }
+        em {
+            font-style: italic;
+            font-weight: normal;
+        }
+        .hidden-text {
+            display: none;
+        }
+        .controls {
+            position: sticky;
+            top: 0;
+            background-color: #fdfdfd;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            z-index: 1000;
+            text-align: center;
+        }
+        .controls button, .controls select {
+            padding: 8px 15px;
+            margin: 0 5px;
+            border: 1px solid #005a9c;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s ease;
+        }
+        .controls button:hover, .controls select:hover {
+            background-color: #0056b3;
+        }
+        .controls select {
+            background-color: #f2f8ff;
+            color: #003366;
+        }
+        .check-understanding {
+            background-color: #fffbe6;
+            border: 1px solid #ffe58f;
+        }
+        .check-understanding .solution {
+            border-top: 1px dashed #ddd;
+            margin-top: 15px;
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <button id="pausePlayButton">Play</button>
+            <select id="speedSelect">
+                <option value="1">1x Speed</option>
+                <option value="1.5">1.5x Speed</option>
+                <option value="2">2x Speed</option>
+                <option value="5">5x Speed</option>
+            </select>
+            <button id="showAllButton">Show All</button>
+        </div>
+
+        <div id="lecture-content">
+            <h1>Lecture 5: Calculating Limits Using the Limit Laws</h1>
+            <p>Welcome back. In our last lecture, we developed an intuition for what a limit is by using tables and graphs to estimate its value. While this is a great way to understand the concept, it can be slow and sometimes imprecise. Today, we move from estimation to calculation. We will learn a set of powerful algebraic rules called the Limit Laws that allow us to calculate limits exactly and efficiently. 🚀</p>
+            <hr>
+
+            <h2>Topic 1: The Limit Laws</h2>
+            <p>Suppose that $c$ is a constant and that the limits $\lim_{x \to a} f(x)$ and $\lim_{x \to a} g(x)$ both exist. Then we have the following laws:</p>
+            <div class="remark">
+                <h4>The Limit Laws (Theorem)</h4>
+                <ol class="limit-laws-list">
+                    <li><strong>Sum Law:</strong> $\lim_{x \to a} [f(x) + g(x)] = \lim_{x \to a} f(x) + \lim_{x \to a} g(x)$</li>
+                    <li><strong>Difference Law:</strong> $\lim_{x \to a} [f(x) - g(x)] = \lim_{x \to a} f(x) - \lim_{x \to a} g(x)$</li>
+                    <li><strong>Constant Multiple Law:</strong> $\lim_{x \to a} [c \cdot f(x)] = c \cdot \lim_{x \to a} f(x)$</li>
+                    <li><strong>Product Law:</strong> $\lim_{x \to a} [f(x) \cdot g(x)] = \lim_{x \to a} f(x) \cdot \lim_{x \to a} g(x)$</li>
+                    <li><strong>Quotient Law:</strong> $\lim_{x \to a} \frac{f(x)}{g(x)} = \frac{\lim_{x \to a} f(x)}{\lim_{x \to a} g(x)}$, provided $\lim_{x \to a} g(x) \neq 0$</li>
+                    <li><strong>Power Law:</strong> $\lim_{x \to a} [f(x)]^n = \left[\lim_{x \to a} f(x)\right]^n$, where $n$ is a positive integer.</li>
+                    <li><strong>Root Law:</strong> $\lim_{x \to a} \sqrt[n]{f(x)} = \sqrt[n]{\lim_{x \to a} f(x)}$, where $n$ is a positive integer. (If $n$ is even, we assume $\lim_{x \to a} f(x) > 0$).</li>
+                </ol>
+            </div>
+            <p>These laws are built upon two foundational limits:</p>
+            <p>$$ \lim_{x \to a} c = c \quad \text{and} \quad \lim_{x \to a} x = a $$</p>
+
+            <div class="example-box">
+                <h3>Example 1</h3>
+                <p>Use the Limit Laws to evaluate $\lim_{x \to 3} (2x^2 - 5x + 1)$.</p>
+                <h4>Solution:</h4>
+                <p>We'll break this down step-by-step, showing which law we use at each stage.</p>
+                <p>$$ \begin{align*} \lim_{x \to 3} (2x^2 - 5x + 1) &= \lim_{x \to 3} (2x^2) - \lim_{x \to 3} (5x) + \lim_{x \to 3} (1) \quad (\text{Sum/Difference Laws}) \\ &= 2 \lim_{x \to 3} (x^2) - 5 \lim_{x \to 3} (x) + \lim_{x \to 3} (1) \quad (\text{Constant Multiple Law}) \\ &= 2 \left(\lim_{x \to 3} x\right)^2 - 5 \lim_{x \to 3} (x) + \lim_{x \to 3} (1) \quad (\text{Power Law}) \\ &= 2(3)^2 - 5(3) + 1 \quad (\text{Applying foundational limits}) \\ &= 2(9) - 15 + 1 \\ &= 18 - 15 + 1 = 4 \end{align*} $$</p>
+                <p>This detailed process confirms that for any polynomial, we can find the limit by simply substituting the value of $x$.</p>
+                <iframe src="media/limit-laws-poly.png" width="900" height="500"></iframe>
+            </div>
+
+            <div class="example-box">
+                <h3>Example 2</h3>
+                <p>Find the limit $\lim_{x \to -1} \frac{x^2+3}{x-2}$.</p>
+                <h4>Solution:</h4>
+                <p>We use the Quotient Law, provided the limit of the denominator is not zero. Let's check that first.</p>
+                <p>$$\lim_{x \to -1} (x-2) = -1 - 2 = -3 \neq 0$$</p>
+                <p>Since the denominator's limit is not zero, we can proceed.</p>
+                <p>$$ \lim_{x \to -1} \frac{x^2+3}{x-2} = \frac{\lim_{x \to -1} (x^2+3)}{\lim_{x \to -1} (x-2)} = \frac{(-1)^2 + 3}{-1-2} = \frac{1+3}{-3} = -\frac{4}{3} $$</p>
+                <iframe src="media/limit-laws-rational.png" width="900" height="500"></iframe>
+            </div>
+
+            <div class="example-box check-understanding">
+                <h4>Check Your Understanding: Pause the playback</h4>
+                <p>Problem: Given that $\lim_{x \to a} f(x) = 9$ and $\lim_{x \to a} g(x) = -2$, find the value of $\lim_{x \to a} \frac{2f(x) - g(x)}{\sqrt{f(x)}}$.</p>
+                <div class="solution" style="display: none;">
+                    <p>Solution:</p>
+                    <p>We apply the Limit Laws to the given expression.</p>
+                    <p>$$ \begin{align*} \lim_{x \to a} \frac{2f(x) - g(x)}{\sqrt{f(x)}} &= \frac{\lim_{x \to a} [2f(x) - g(x)]}{\lim_{x \to a} [\sqrt{f(x)}]} \quad (\text{Quotient Law}) \\ &= \frac{\lim_{x \to a} [2f(x)] - \lim_{x \to a} [g(x)]}{\sqrt{\lim_{x \to a} f(x)}} \quad (\text{Difference and Root Laws}) \\ &= \frac{2 \lim_{x \to a} f(x) - \lim_{x \to a} g(x)}{\sqrt{\lim_{x \to a} f(x)}} \quad (\text{Constant Multiple Law}) \\ &= \frac{2(9) - (-2)}{\sqrt{9}} \quad (\text{Substitute the given values}) \\ &= \frac{18 + 2}{3} = \frac{20}{3} \end{align*} $$</p>
+                </div>
+            </div>
+            <hr>
+
+            <h2>Topic 2: Direct Substitution and Algebraic Manipulation</h2>
+            <p>As we saw in the first example, for polynomials and rational functions, calculating a limit is as simple as plugging in the value, as long as it doesn't make the denominator zero. This is called the <strong>Direct Substitution Property</strong>.</p>
+            <p class="remark">However, if direct substitution gives you the indeterminate form $\frac{0}{0}$, you must perform more steps. The goal is always to algebraically manipulate the function so that you can cancel the term causing the zero in the denominator.</p>
+
+            <div class="example-box">
+                <h3>Example 1: Factoring and Canceling</h3>
+                <p>Calculate the limit $\lim_{x \to -2} \frac{x^2+5x+6}{x+2}$.</p>
+                <h4>Solution:</h4>
+                <p>First, we try direct substitution:</p>
+                <p>$$ \frac{(-2)^2 + 5(-2) + 6}{-2+2} = \frac{4 - 10 + 6}{0} = \frac{0}{0} $$</p>
+                <p>This is an indeterminate form. We need to simplify. Let's factor the numerator.</p>
+                <p>$$ x^2+5x+6 = (x+2)(x+3) $$</p>
+                <p>Now, substitute the factored form back into the limit:</p>
+                <p>$$ \lim_{x \to -2} \frac{(x+2)(x+3)}{x+2} $$</p>
+                <p>Since $x \to -2$, $x$ is not equal to -2, so we can cancel the $(x+2)$ terms.</p>
+                <p>$$ \lim_{x \to -2} (x+3) = -2 + 3 = 1 $$</p>
+                <iframe src="media/limit-laws-factor.png" width="900" height="500"></iframe>
+            </div>
+            
+            <div class="example-box">
+                <h3>Example 2: Simplifying Complex Fractions</h3>
+                <p>Calculate the limit $\lim_{x \to 0} \frac{\frac{1}{x+4} - \frac{1}{4}}{x}$.</p>
+                <h4>Solution:</h4>
+                <p>Direct substitution gives $\frac{\frac{1}{4} - \frac{1}{4}}{0} = \frac{0}{0}$. We must simplify the complex fraction in the numerator by finding a common denominator, which is $4(x+4)$.</p>
+                <p>$$ \begin{align*} \lim_{x \to 0} \frac{\frac{1}{x+4} - \frac{1}{4}}{x} &= \lim_{x \to 0} \frac{\frac{4}{4(x+4)} - \frac{x+4}{4(x+4)}}{x} \\ &= \lim_{x \to 0} \frac{\frac{4 - (x+4)}{4(x+4)}}{x} \\ &= \lim_{x \to 0} \frac{\frac{-x}{4(x+4)}}{x} \\ &= \lim_{x \to 0} \frac{-x}{4(x+4)} \cdot \frac{1}{x} \quad (\text{Dividing by } x \text{ is multiplying by } \frac{1}{x}) \\ &= \lim_{x \to 0} \frac{-1}{4(x+4)} \quad (\text{Cancel the } x \text{ terms}) \\ &= \frac{-1}{4(0+4)} = -\frac{1}{16} \end{align*} $$</p>
+                <iframe src="media/limit-laws-complex.png" width="900" height="500"></iframe>
+            </div>
+
+            <div class="example-box check-understanding">
+                <h4>Check Your Understanding: Pause the playback</h4>
+                <p>Problem: Evaluate the limit $\lim_{h \to 0} \frac{(-2+h)^{-1} + 2^{-1}}{h}$.</p>
+                <div class="solution" style="display: none;">
+                    <p>Solution:</p>
+                    <p>Direct substitution of $h=0$ leads to the indeterminate form $\frac{0}{0}$. Our first step is to rewrite the negative exponents as fractions.</p>
+                    <p>$$ \lim_{h \to 0} \frac{\frac{1}{-2+h} + \frac{1}{2}}{h} $$</p>
+                    <p>Next, we simplify the complex fraction in the numerator by finding a common denominator, which is $2(-2+h)$.</p>
+                     <p>$$ \begin{align*} \lim_{h \to 0} \frac{\frac{2}{2(-2+h)} + \frac{-2+h}{2(-2+h)}}{h} &= \lim_{h \to 0} \frac{\frac{2 + (-2+h)}{2(-2+h)}}{h} \\ &= \lim_{h \to 0} \frac{\frac{h}{2(-2+h)}}{h} \\ &= \lim_{h \to 0} \frac{h}{2(-2+h)} \cdot \frac{1}{h} \\ &= \lim_{h \to 0} \frac{1}{2(-2+h)} \quad (\text{Cancel } h, \text{ since } h \neq 0) \\ &= \frac{1}{2(-2+0)} = \frac{1}{-4} = -\frac{1}{4} \end{align*} $$</p>
+                    <iframe src="media/limit-laws-reciprocal.png" width="900" height="500"></iframe>
+                </div>
+            </div>
+            <hr>
+            
+            <h2>Topic 3: The Squeeze Theorem</h2>
+            <p>What if we can't calculate a limit directly, but we can trap or "squeeze" our difficult function between two simpler functions whose limits are the same? This is the idea behind the Squeeze Theorem.</p>
+            <div class="remark">
+                <h4>The Squeeze Theorem</h4>
+                <p>If $f(x) \le g(x) \le h(x)$ when $x$ is near $a$ (except possibly at $a$) and</p>
+                <p>$$ \lim_{x \to a} f(x) = \lim_{x \to a} h(x) = L $$</p>
+                <p>then</p>
+                <p>$$ \lim_{x \to a} g(x) = L $$</p>
+            </div>
+
+            <div class="example-box">
+                <h3>Example 1</h3>
+                <p>Show that $\lim_{x \to 0} x^2 \sin(\frac{1}{x}) = 0$.</p>
+                <h4>Solution:</h4>
+                <p>We cannot use the Product Law here because $\lim_{x \to 0} \sin(\frac{1}{x})$ does not exist. But we know that the sine function is always bounded between -1 and 1.</p>
+                <p>$$ -1 \le \sin(\frac{1}{x}) \le 1 $$</p>
+                <p>We can multiply all parts of this inequality by $x^2$. Since $x^2 \ge 0$, the inequality signs do not change.</p>
+                <p>$$ -x^2 \le x^2 \sin(\frac{1}{x}) \le x^2 $$</p>
+                <p>Now, we take the limit of the outer functions:</p>
+                <p>$$ \lim_{x \to 0} (-x^2) = 0 \quad \text{and} \quad \lim_{x \to 0} (x^2) = 0 $$</p>
+                <p>Since our function is squeezed between two functions that both approach 0, by the Squeeze Theorem, our limit must also be 0.</p>
+                <p>$$ \lim_{x \to 0} x^2 \sin(\frac{1}{x}) = 0 $$</p>
+                <iframe src="media/squeeze-theorem-sin.png" width="900" height="500"></iframe>
+            </div>
+
+            <div class="example-box">
+                <h3>Example 2</h3>
+                <p>The graph of a function $g(x)$ is squeezed between the graphs of $f(x) = x^2 - 4x + 7$ and $h(x) = -x^2 + 4x - 1$ near $x=2$. What is $\lim_{x \to 2} g(x)$?</p>
+                <h4>Solution:</h4>
+                <p>According to the Squeeze Theorem, if we find the limits of the outer functions and they are equal, that will also be the limit of $g(x)$.</p>
+                <p>$$ \lim_{x \to 2} f(x) = \lim_{x \to 2} (x^2 - 4x + 7) = (2)^2 - 4(2) + 7 = 4 - 8 + 7 = 3 $$</p>
+                <p>$$ \lim_{x \to 2} h(x) = \lim_{x \to 2} (-x^2 + 4x - 1) = -(2)^2 + 4(2) - 1 = -4 + 8 - 1 = 3 $$</p>
+                <p>Since $\lim_{x \to 2} f(x) = 3$ and $\lim_{x \to 2} h(x) = 3$, we can conclude by the Squeeze Theorem that:</p>
+                <p>$$ \lim_{x \to 2} g(x) = 3 $$</p>
+                 <iframe src="media/squeeze-theorem-parabolas.png" width="900" height="500"></iframe>
+            </div>
+
+            <div class="example-box check-understanding">
+                <h4>Check Your Understanding: Pause the playback</h4>
+                <p>Problem: Use the Squeeze Theorem to evaluate $\lim_{x \to 0} x^4 \cos(\frac{2}{x^2})$.</p>
+                <div class="solution" style="display: none;">
+                    <p>Solution:</p>
+                    <p>First, let's see why the Product Law fails. We would have $\lim_{x \to 0} x^4 \cdot \lim_{x \to 0} \cos(\frac{2}{x^2})$. While $\lim_{x \to 0} x^4 = 0$, the second limit, $\lim_{x \to 0} \cos(\frac{2}{x^2})$, does not exist. As $x$ gets close to 0, $\frac{2}{x^2}$ grows infinitely large, causing the cosine function to oscillate infinitely fast between -1 and 1 without approaching a single value. Since one of the limits does not exist, the Product Law cannot be applied.</p>
+                    <p>This is a signal to try the Squeeze Theorem. The cosine function is always bounded between -1 and 1.</p>
+                    <p>$$ -1 \le \cos(\frac{2}{x^2}) \le 1 $$</p>
+                    <p>Multiply all parts by $x^4$. Since $x^4 \ge 0$, the inequalities stay the same.</p>
+                    <p>$$ -x^4 \le x^4 \cos(\frac{2}{x^2}) \le x^4 $$</p>
+                    <p>Now, find the limits of the outer functions as $x \to 0$.</p>
+                    <p>$$ \lim_{x \to 0} (-x^4) = 0 \quad \text{and} \quad \lim_{x \to 0} (x^4) = 0 $$</p>
+                    <p>Since both outer functions approach 0, the Squeeze Theorem tells us the function squeezed between them must also approach 0.</p>
+                    <p>$$ \lim_{x \to 0} x^4 \cos(\frac{2}{x^2}) = 0 $$</p>
+                </div>
+            </div>
+            <hr>
+
+            <h2>Revisiting the Definition of a Limit</h2>
+            <p>Let's end with one more example that connects our new algebraic tools with the core definition of a limit from our last lecture: the left-hand limit must equal the right-hand limit for the overall limit to exist.</p>
+            <div class="example-box">
+                <h3>Final Example: A Jump Discontinuity</h3>
+                <p>Find the limit of the function $f(x)$ as $x \to 1$, where $f(x)$ is defined as:</p>
+                <p>$$ f(x) = \begin{cases} x+1 & \text{if } x < 1 \\ x^2+3 & \text{if } x \geq 1 \end{cases} $$</p>
+                <h4>Solution:</h4>
+                <p>Because the rule for the function changes at $x=1$, we must investigate the one-sided limits. For each side, we can use direct substitution because the pieces are polynomials.</p>
+                <p><strong>Left-hand limit:</strong></p>
+                <p>$$ \lim_{x \to 1^-} f(x) = \lim_{x \to 1^-} (x+1) = 1+1 = 2 $$</p>
+                <p><strong>Right-hand limit:</strong></p>
+                <p>$$ \lim_{x \to 1^+} f(x) = \lim_{x \to 1^+} (x^2+3) = (1)^2+3 = 4 $$</p>
+                <p>Since $\lim_{x \to 1^-} f(x) = 2$ and $\lim_{x \to 1^+} f(x) = 4$, the left- and right-hand limits are not equal. Therefore, the overall limit does not exist.</p>
+                <p>$$ \lim_{x \to 1} f(x) \text{ DNE} $$</p>
+                <iframe src="media/limit-final-jump.png" width="900" height="500"></iframe>
+            </div>
+            <hr>
+            
+            <h2>Conclusion</h2>
+            <p>Today we established a powerful set of rules for calculating limits algebraically. The Limit Laws, combined with techniques like factoring and conjugates, allow us to solve for exact limits without relying on tables or graphs. We also introduced the Squeeze Theorem, a clever tool for dealing with tricky functions. These methods form the bedrock for our next major topic: continuity.</p>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lectureContent = document.getElementById('lecture-content');
+            const pausePlayButton = document.getElementById('pausePlayButton');
+            const speedSelect = document.getElementById('speedSelect');
+            const showAllButton = document.getElementById('showAllButton');
+            const elementsToProcess = Array.from(lectureContent.children);
+            
+            let currentElementIndex = 0;
+            let isPaused = true;
+            let timerId = null;
+
+            function getBaseDelay(element) {
+                if (!element) return 0;
+                const textContent = element.textContent || '';
+                const wordCount = textContent.split(/\s+/).filter(word => word.length > 0).length;
+                
+                if (element.tagName === 'TABLE' || element.tagName === 'IFRAME' || element.tagName === 'IMG') return 4000;
+                if (element.tagName === 'HR') return 500;
+                
+                // Use a standard words-per-minute calculation for paragraphs and headers
+                return Math.max(1000, wordCount * 250); 
+            }
+            
+            function playNextElement() {
+                if (isPaused) return;
+
+                if (currentElementIndex >= elementsToProcess.length) {
+                    pausePlayButton.textContent = 'Restart';
+                    isPaused = true;
+                    return;
+                }
+
+                const element = elementsToProcess[currentElementIndex];
+                element.classList.remove('hidden-text');
+                
+                if (window.MathJax) {
+                    MathJax.typesetPromise([element]).then(() => {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    });
+                } else {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                let delay = getBaseDelay(element) / parseFloat(speedSelect.value);
+
+                if (element.classList.contains('check-understanding')) {
+                    const solutionDiv = element.querySelector('.solution');
+                    
+                    timerId = setTimeout(() => {
+                        if (isPaused) return;
+                        
+                        const solutionPauseDelay = 8000 / parseFloat(speedSelect.value);
+                        timerId = setTimeout(() => {
+                            if (isPaused) return;
+
+                            solutionDiv.style.display = 'block';
+                            if (window.MathJax) MathJax.typesetPromise([solutionDiv]);
+                            
+                            const solutionReadDelay = getBaseDelay(solutionDiv) / parseFloat(speedSelect.value);
+                            timerId = setTimeout(() => {
+                                currentElementIndex++;
+                                playNextElement();
+                            }, solutionReadDelay);
+                        }, solutionPauseDelay);
+
+                    }, delay);
+                } else {
+                    // Standard element timing
+                    timerId = setTimeout(() => {
+                        currentElementIndex++;
+                        playNextElement();
+                    }, delay);
+                }
+            }
+            
+            function togglePausePlay() {
+                if (currentElementIndex >= elementsToProcess.length && isPaused) {
+                    resetLecture();
+                }
+                
+                isPaused = !isPaused;
+                pausePlayButton.textContent = isPaused ? 'Play' : 'Pause';
+
+                if (isPaused) {
+                    clearTimeout(timerId);
+                } else {
+                    playNextElement();
+                }
+            }
+
+            function changePlaybackSpeed() {
+                if (!isPaused) {
+                    clearTimeout(timerId);
+                    playNextElement();
+                }
+            }
+
+            function showAllContent() {
+                clearTimeout(timerId);
+                elementsToProcess.forEach(el => {
+                    el.classList.remove('hidden-text');
+                    const solutionDiv = el.querySelector('.solution');
+                    if(solutionDiv) solutionDiv.style.display = 'block';
+                });
+                if (window.MathJax) {
+                    MathJax.typesetPromise([lectureContent]);
+                }
+                currentElementIndex = elementsToProcess.length;
+                isPaused = true;
+                pausePlayButton.textContent = 'Restart';
+            }
+
+            function resetLecture() {
+                clearTimeout(timerId);
+                elementsToProcess.forEach(el => {
+                    el.classList.add('hidden-text');
+                    const solutionDiv = el.querySelector('.solution');
+                    if(solutionDiv) solutionDiv.style.display = 'none';
+                });
+                currentElementIndex = 0;
+                isPaused = true;
+                pausePlayButton.textContent = 'Play';
+            }
+            
+            pausePlayButton.addEventListener('click', togglePausePlay);
+            speedSelect.addEventListener('change', changePlaybackSpeed);
+            showAllButton.addEventListener('click', showAllContent);
+            
+            resetLecture(); 
+        });
+    </script>
+</body>
+</html>
