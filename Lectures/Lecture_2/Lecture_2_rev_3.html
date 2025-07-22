@@ -82,29 +82,13 @@
         .example-box p {
             font-size: 0.95em;
         }
-        .img-placeholder {
-            max-width: 80%;
-            height: 400px;
-            display: block;
-            margin: 30px auto;
-            border: 2px dashed #ccc;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #999;
-            font-style: italic;
-            font-size: 1.2em;
-            background-color: #f9f9f9;
-        }
-        img, video {
-            max-width: 100%;
-            height: auto;
+        img {
             display: block;
             margin: 30px auto;
             border: 1px solid #ccc;
             border-radius: 4px;
+            max-width: 100%;
+            height: auto;
         }
         th {
             background-color: #f2f8ff;
@@ -160,15 +144,14 @@
                 <option value="1">1x Speed</option>
                 <option value="1.5">1.5x Speed</option>
                 <option value="2">2x Speed</option>
-                <option value="0.5">0.5x Speed</option>
+                <option value="5">5x Speed</option>
             </select>
             <button id="showAllButton">Show All</button>
         </div>
 
         <div id="lecture-content">
-            <!-- Content sections from before -->
             <h1>Lecture 2: A Brief Pre-Calculus Review</h1>
-            <p>We continue with our precalculus review. We'll see how we can derive a function from real-world data to model the physical world. This serves as our entry point to discussing other families of functions, which are essentialfor what we will do in calculus.</p>
+            <p>We continue with our precalculus review. We'll see how we can derive a function from real-world data to model the physical world. This serves as our entry point to discussing other families of functions, which are essential for what we will do in calculus.</p>
             <hr>
             <h2>From Data to a Mathematical Model</h2>
             <p>It's a common observation that crickets chirp more frequently as the temperature rises. Let's imagine we're field biologists who have collected the following data:</p>
@@ -394,12 +377,14 @@
             const showAllButton = document.getElementById('showAllButton');
             const elementsToProcess = Array.from(lectureContent.children);
             
+            // Hide all content initially
+            elementsToProcess.forEach(el => el.classList.add('hidden-text'));
+
             let currentElementIndex = 0;
             let isPaused = true;
             let playbackSpeed = 1;
             let mainTimerId = null;
             
-            // Pausable timer for solutions
             let solutionTimer = {
                 id: null,
                 element: null,
@@ -450,13 +435,13 @@
                     solutionTimer.startTime = Date.now();
                     solutionTimer.id = setTimeout(() => {
                         solutionTimer.element.style.display = 'block';
-                        if(window.MathJax) MathJax.typesetPromise([solutionTimer.element]);
-                        solutionTimer.id = null;
+                         if(window.MathJax) MathJax.typesetPromise([solutionTimer.element]);
+                         solutionTimer.id = null;
                     }, solutionTimer.remaining);
                 }
             }
             
-            function showNextElement() {
+             function showNextElement() {
                 if (isPaused || currentElementIndex >= elementsToProcess.length) {
                     if (currentElementIndex >= elementsToProcess.length) {
                         pausePlayButton.textContent = 'Restart';
@@ -473,7 +458,7 @@
                 }
 
                 if (window.MathJax) {
-                    MathJax.typesetPromise([element]).then(() => {
+                     MathJax.typesetPromise([element]).then(() => {
                         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     });
                 } else {
