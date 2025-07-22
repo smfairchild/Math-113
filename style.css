@@ -1,0 +1,135 @@
+/* --- Global Styles & Variables --- */
+:root {
+    --mason-green: #006633;
+    --mason-gold: #FFCC33;
+    --light-gray: #f4f4f4;
+    --dark-text: #333333;
+    --light-text: #ffffff;
+    --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    --card-shadow-hover: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--light-gray);
+    color: var(--dark-text);
+}
+
+.container {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+/* --- Banner Header --- */
+.banner {
+    background-color: var(--mason-green);
+    color: var(--light-text);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.logo {
+    height: 70px; /* Adjust size as needed */
+    width: auto;
+}
+
+.title-container h1 {
+    margin: 0;
+    font-family: 'Roboto Slab', serif;
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.title-container p {
+    margin: 0;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* --- Welcome Message --- */
+.welcome-message {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.welcome-message h2 {
+    font-family: 'Roboto Slab', serif;
+    font-size: 2rem;
+    color: var(--mason-green);
+}
+
+/* --- Card Grid Layout --- */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: #ffffff;
+    border-left: 5px solid var(--mason-green);
+    padding: 1.5rem 2rem;
+    text-decoration: none;
+    color: var(--dark-text);
+    border-radius: 5px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--card-shadow-hover);
+    border-left-color: var(--mason-gold);
+}
+
+.card h3 {
+    margin-top: 0;
+    font-family: 'Roboto Slab', serif;
+    font-size: 1.5rem;
+    color: var(--mason-green);
+}
+
+.card p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* --- Quote Section --- */
+.quote-section {
+    text-align: center;
+    margin: 4rem auto;
+    padding: 2rem;
+    max-width: 700px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.quote-section blockquote {
+    margin: 0;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: #555;
+}
+
+.quote-section footer {
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    color: var(--mason-green);
+}
+
+/* --- Footer --- */
+.site-footer {
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    background-color: #e0e0e0;
+    color: #666;
+    font-size: 0.9rem;
+}
