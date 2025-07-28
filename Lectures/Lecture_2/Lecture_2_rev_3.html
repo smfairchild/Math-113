@@ -74,7 +74,7 @@
             margin: 20px 0;
             border-radius: 5px;
         }
-        .example-box h3, .check-understanding h4 {
+        .example-box h3, .check-understanding h4, .video-resource h4 {
             margin-top: 0;
             color: #005a9c;
             font-size: 1.1em;
@@ -133,6 +133,10 @@
             border-top: 1px dashed #ddd;
             margin-top: 15px;
             padding-top: 15px;
+        }
+        .video-resource {
+            background-color: #e6f7ff;
+            border: 1px solid #b3e0ff;
         }
     </style>
 </head>
@@ -245,7 +249,7 @@
             <img src="media/trig_values_quad1234.png" alt="The unit circle with key angles and their coordinates labeled in all four quadrants.">
             
             <p style="text-align: center; font-style: italic; font-size: 1.1em; margin-top: 30px; margin-bottom: 30px;">
-              <a href="https://www.geogebra.org/classic/punmnt6q" target="_blank">Click here to see the relationship between the unit circle and the graphs of sin, cos, and tan</a>.
+                <a href="https://www.geogebra.org/classic/punmnt6q" target="_blank">Click here to see the relationship between the unit circle and the graphs of sin, cos, and tan</a>.
             </p>
 
             <h4>Trigonometric Values for Key Angles</h4>
@@ -255,6 +259,12 @@
                 <tr><td><strong>$\cos(\theta)$</strong></td><td>$1$</td><td>$\sqrt{3}/2$</td><td>$\sqrt{2}/2$</td><td>$1/2$</td><td>$0$</td><td>$-1$</td><td>$0$</td><td>$1$</td></tr>
                 <tr><td><strong>$\tan(\theta)$</strong></td><td>$0$</td><td>$\sqrt{3}/3$</td><td>$1$</td><td>$\sqrt{3}$</td><td>undefined</td><td>$0$</td><td>undefined</td><td>$0$</td></tr>
             </table>
+
+            <div class="example-box video-resource">
+                <h4>Supplemental Video Resource</h4>
+                <p>For an excellent visual explanation of the essential trigonometric concepts needed for this course, please watch the following video.</p>
+                <p><a href="https://www.youtube.com/watch?v=e7QjCL7lQM4" target="_blank">All the TRIG you need for calculus actually explained</a></p>
+            </div>
 
             <h3>4. Logarithmic Functions</h3>
             <p>A logarithmic function answers the question: "what exponent must we raise a base to, in order to get a certain number?" The expression $y = \log_b(x)$ is read as "y is the logarithm to the base b of x".</p>
@@ -318,10 +328,10 @@
             <h3>Vertical and Horizontal Shifts</h3>
             <p>Shifts are transformations that move the entire graph of a function without changing its shape. Let $c$ be a positive constant:</p>
             <ul>
-                <li>$y = f(x) + c$:&nbsp; Shifts the graph of $f(x)$ up by $c$ units.</li>
-                <li>$y = f(x) - c$:&nbsp; Shifts the graph of $f(x)$ down by $c$ units.</li>
-                <li>$y = f(x - c)$:&nbsp; Shifts the graph of $f(x)$ to the <strong>right</strong> by $c$ units.</li>
-                <li>$y = f(x + c)$:&nbsp; Shifts the graph of $f(x)$ to the <strong>left</strong> by $c$ units.</li>
+                <li>$y = f(x) + c$:  Shifts the graph of $f(x)$ up by $c$ units.</li>
+                <li>$y = f(x) - c$:  Shifts the graph of $f(x)$ down by $c$ units.</li>
+                <li>$y = f(x - c)$:  Shifts the graph of $f(x)$ to the <strong>right</strong> by $c$ units.</li>
+                <li>$y = f(x + c)$:  Shifts the graph of $f(x)$ to the <strong>left</strong> by $c$ units.</li>
             </ul>
             
             <div class="example-box">
@@ -331,7 +341,7 @@
             </div>
             
             <p style="text-align: center; font-style: italic; font-size: 1.1em; margin-top: 30px; margin-bottom: 30px;">
-              <a href="https://www.desmos.com/calculator/16d55fdnap" target="_blank">Click here to explore horizontal and vertical shifts on Desmos</a>.
+                <a href="https://www.desmos.com/calculator/16d55fdnap" target="_blank">Click here to explore horizontal and vertical shifts on Desmos</a>.
             </p>
 
             <h3>Example: Completing the Square</h3>
@@ -436,7 +446,7 @@
                     solutionTimer.id = setTimeout(() => {
                         solutionTimer.element.style.display = 'block';
                          if(window.MathJax) MathJax.typesetPromise([solutionTimer.element]);
-                         solutionTimer.id = null;
+                          solutionTimer.id = null;
                     }, solutionTimer.remaining);
                 }
             }
@@ -472,16 +482,16 @@
 
             function togglePausePlay() {
                 if (currentElementIndex >= elementsToProcess.length && !isPaused) {
-                     resetLecture();
-                     return;
+                      resetLecture();
+                      return;
                 }
                  if (currentElementIndex >= elementsToProcess.length && isPaused) {
-                     resetLecture();
-                     isPaused = false;
-                     pausePlayButton.textContent = 'Pause';
-                     showNextElement();
-                     return;
-                }
+                      resetLecture();
+                      isPaused = false;
+                      pausePlayButton.textContent = 'Pause';
+                      showNextElement();
+                      return;
+                 }
 
                 isPaused = !isPaused;
                 pausePlayButton.textContent = isPaused ? 'Play' : 'Pause';
